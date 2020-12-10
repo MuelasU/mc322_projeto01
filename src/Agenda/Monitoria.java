@@ -1,4 +1,4 @@
-package src.Agenda;
+package src.agenda;
 
 public class Monitoria {
 

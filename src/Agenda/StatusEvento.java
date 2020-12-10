@@ -1,5 +1,5 @@
 package src.agenda;
 
-public class Evento {
+public enum StatusEvento {
     
 }

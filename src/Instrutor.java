@@ -4,11 +4,14 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import src.Agenda.Aula;
-import src.Agenda.Evento;
-import src.Agenda.Monitoria;
-import src.Repositorio.*;
+import src.agenda.Aula;
+import src.agenda.Evento;
+import src.agenda.Monitoria;
+import src.repositorio.*;
 
+/**
+ * É um tipo de {@link Usuario} que possui habilidades necessárias para ministrar aulas, realizar monitorias e disponibilizar conteúdos. Este usuário é responsável por fazer o trabalho docente no contexto educacional do aplicativo.
+ */
 public class Instrutor extends Usuario {
     private int numeroAulas;
     private int numeroMonitorias;
@@ -70,4 +73,9 @@ public class Instrutor extends Usuario {
     }
 
     public Diretorio solicitarDiretorio(String nome, String descricao, Disciplina disciplina, Diretorio diretorioPai) {return new Diretorio();}
+
+    @Override
+    public String toString() {
+        return super.toString() + " Instrutor";
+    }
 }

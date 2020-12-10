@@ -3,12 +3,15 @@ package src;
 import java.time.Duration;
 import java.util.Calendar;
 
-import src.Agenda.Aula;
-import src.Agenda.Evento;
-import src.Agenda.Monitoria;
-import src.Repositorio.Diretorio;
-import src.Repositorio.Material;
+import src.agenda.Aula;
+import src.agenda.Evento;
+import src.agenda.Monitoria;
+import src.repositorio.Diretorio;
+import src.repositorio.Material;
 
+/** 
+ * É um tipo de {@link Usuario} que possui habilidades especiais, úteis para gerenciar o aplicativo e mantê-lo coeso.
+ */
 public class Moderador extends Usuario {
     public Moderador(String email, String senha, Perfil perfil) {
         super(email, senha, perfil);
@@ -35,4 +38,9 @@ public class Moderador extends Usuario {
     }
 
     public Material removerMaterial(Material material) {return material;}
+
+    @Override
+    public String toString() {
+        return super.toString() + " Moderador";
+    }
 }

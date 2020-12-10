@@ -1,4 +1,4 @@
-package src.Repositorio;
+package src.repositorio;
 
 public class Diretorio {
 

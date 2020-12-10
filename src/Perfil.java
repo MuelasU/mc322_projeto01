@@ -2,6 +2,9 @@ package src;
 
 import java.util.Calendar;
 
+/**
+ * Caracteriza um {@link Usuario} registrado no aplicativo.
+ */
 public class Perfil {
     private String nome;
     private String descricao;
@@ -75,4 +78,9 @@ public class Perfil {
         this.dataDeNascimento = dataDeNascimento;
     }
     //#endregion
+
+    @Override
+    public String toString() {
+        return "Perfil";
+    }
 }

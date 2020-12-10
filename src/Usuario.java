@@ -2,14 +2,12 @@ package src;
 
 import java.util.Calendar;
 
-import src.Agenda.Agenda;
+import src.agenda.Agenda;
 
 /**
- * Implementa o elemento fundamental deste aplicativo. <p>
- * Esta classe representa o usuario que utiliza o aplicativo e se subdivide nas subclasses {@code Estudante}, {@code Instrutor} e {@code Moderador}, cada uma contendo suas especificações.
- * @see Estudante
- * @see Instrutor
- * @see Moderador
+ * Implementa o elemento fundamental deste aplicativo.
+ * <p>
+ * Esta classe representa o usuario que utiliza o aplicativo e se subdivide nas subclasses {@link Estudante}, {@link Instrutor} e {@link Moderador}, cada uma contendo suas especificações.
  */
 public class Usuario {
     private static int numeroUsuarios = 0;
@@ -83,4 +81,9 @@ public class Usuario {
         this.dataDeAtivacao = dataDeAtivacao;
     }
     //#endregion    
+
+    @Override
+    public String toString() {
+        return "Usuario";
+    }
 }

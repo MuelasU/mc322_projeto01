@@ -1,5 +1,5 @@
-package src.Forum;
+package src.forum;
 
-public class Discussao {
+public class Discussao extends Mensagem {
 
 }
