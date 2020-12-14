@@ -82,7 +82,7 @@ public class Agenda {
      * @return nova {@code Agenda} contendo apenas {@code Evento} com {@code estaConfirmado} especificado
      */
     public Agenda filtraPorConfirmacao(boolean estaConfirmado) {
-        List<Evento> novo = eventos.stream().filter(e -> (e.getConfirmacao() == estaConfirmado)).collect(Collectors.toList());
+        List<Evento> novo = eventos.stream().filter(e -> (e.isConfirmado() == estaConfirmado)).collect(Collectors.toList());
         return new Agenda(new ArrayList<Evento>(novo));
     }
 
