@@ -72,7 +72,6 @@ public class Estudante extends Usuario {
         if (monitoriaEstaNoFuturo) {
             Monitoria solicitacao = new Monitoria(nome, descricao, disciplina, data);
             this.inscreverEvento(solicitacao);
-            Monitoria.getSolicitacoes().add(solicitacao);
             return solicitacao;
         }
         return null;
@@ -92,6 +91,6 @@ public class Estudante extends Usuario {
 
     @Override
     public String toString() {
-        return super.toString() + " Estudante";
+        return "Estudante\n"+super.toString();
     }
 }

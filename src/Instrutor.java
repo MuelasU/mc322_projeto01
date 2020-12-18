@@ -140,6 +140,9 @@ public class Instrutor extends Usuario {
 
     @Override
     public String toString() {
-        return super.toString() + " Instrutor";
+		String retorno = "Instrutor\n";
+		retorno += super.toString();
+		retorno += "Areas de interesse:"+ this.getAreasDeInteresse()+"\n";
+		return retorno;
     }
 }

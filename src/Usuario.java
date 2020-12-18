@@ -84,6 +84,13 @@ public class Usuario {
 
     @Override
     public String toString() {
-        return "Usuario";
+        String retorno = "Usuario";
+        retorno += "\nId: "+this.getId();
+        retorno += "\nEmail: "+this.getEmail();
+        retorno += "\nSenha: "+this.getSenha();
+        retorno += "\nPerfil: "+this.getPerfil();
+        retorno += this.getAgenda();
+        retorno += "\nData de ativacao: "+this.getDataDeAtivacao().get(Calendar.DATE)+"/"+this.getDataDeAtivacao().get(Calendar.MONTH)+"/"+this.getDataDeAtivacao().get(Calendar.YEAR)+"\n";
+        return retorno;
     }
 }

@@ -3,7 +3,13 @@ package src.forum;
 import java.util.ArrayList;
 
 import src.Usuario;
+import src.repositorio.Material;
 
+/**
+ * É um tipo de {@link Mensagem} útil para responder ou ressaltar alguma informação em alguma {@link Discussao} ou algum {@link Material}.
+ * <p>
+ * Um {@code Comentario} pode ainda ser avaliado positivamente ou negativamente a partir de {@code upvotes} e {@code downvotes}.
+ */
 public class Comentario extends Mensagem{
     private static int numeroComentarios = 0;
 	private int id;
@@ -92,10 +98,10 @@ public class Comentario extends Mensagem{
 	@Override
 	public String toString() {
 		String out = "";
-		out += "Id do Coment�rio: " + getId() + "\n";
+		out += "Id do Comentario: " + getId() + "\n";
 		out += getUpvotes() +" Curtiram :)\n";
-		out += getDownvotes() + " N�o Curtiram :(\n";
-		out += "Respostas ao coment�rio:\n" + getComentarios();
+		out += getDownvotes() + " Nao Curtiram :(\n";
+		out += "Respostas ao comentario:\n" + getComentarios();
 		return out;
 	}
 }

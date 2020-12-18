@@ -3,11 +3,15 @@ package src.repositorio;
 import java.util.ArrayList;
 
 import src.Disciplina;
+import src.Moderador;
 import src.Usuario;
 import src.forum.Comentario;
+import src.forum.Discussao;
 
+/**
+ * Esta classe representa algum conteúdo que deve ser compartilhado no aplicativo.
+ */
 public class Material {
-    
     private static int numeroMateriais = 0;
     private int id;
     private String arquivo;
@@ -97,24 +101,28 @@ public class Material {
     }
     //#endregion
     
-    // /**
-    // * Este m�todo move um material para um novo diretorio. 
-    // * Faz a checagem se o usu�rio � o dono ou um moderador.
-    // * Encontra o diret�rio antigo do material.
-    // * Pega o local do novo diretorio
-    // * Seta este local como o novo local do material
-    // * Adiciona ao diretorio este material
-    // * Remove do diretorio antigo o material
-    // */
-    // public void mover(Diretorio diretorio, Usuario user, Material material) {
-    //     if (user == getDono() || user instanceof Moderador) {
-    //         diretorio_antigo = getDiretorioPorLocal(getLocal());
-    //         novo_local = diretorio.getLocal();
-    //         setLocal(novo_local);
-    //         diretorio.addMaterial(this.material);
-    //         diretorio_antigo.removeMaterial(this.material);
-    //     }
-    // }
+    /**
+     * Este método move um {@link Material} para um novo {@link Diretorio}.
+     * 
+     * @param destino
+     * @param root
+     * @param solicitante
+     * @return {@code true} se moveu. {@code false} caso contrário, quando o <b>solicitante</b> não tem permissão.
+     */
+    public boolean mover(Diretorio destino, Diretorio root, Usuario solicitante) {
+        boolean solicitanteEhModerador = solicitante instanceof Moderador;
+        boolean solicitanteEhDono = solicitante == this.getDono();
+        if (solicitanteEhDono || solicitanteEhModerador) {
+            //remove o material do diretorio atual
+            Diretorio diretorioPai = Diretorio.getDiretorioPorLocal(root, this.getLocal());
+            diretorioPai.getMateriais().remove(this);
+            //adiciona o material no diretorio destino
+            destino.getMateriais().add(this);
+            this.local = destino.getLocal();
+            return true;
+        }
+        return false;
+    }
     
     /**
      * Este método adiciona um novo {@link Comentario} na {@link Discussao}.

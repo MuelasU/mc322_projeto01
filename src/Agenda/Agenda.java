@@ -6,18 +6,31 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import src.Disciplina;
+import src.Usuario;
 
+/**
+ * Esta classe representa a lista de {@link Evento} do aplicativo. Ela pode estar associada a todo {@link Usuario}, guardando as informações dos {@code Evento} em que ele está inscrito, ou pode estar associada ao aplicativo como um todo, guardando informações de todos {@code Evento} independentemente de {@code Usuario}.
+ * <p>
+ * {@code Agenda} possui métodos de filtro que servem para buscar {@code Evento} com características em comum. Por exemplo:
+ * <pre>
+ * Agenda.getAgendaGeral().filtraPorDisciplina(Disciplina.MATEMATICA).getEventos()
+ * </pre>
+ * Este código retorna uma lista contendo todos {@code Evento} relacionados a Matemática.
+ */
 public class Agenda {
     private static ArrayList<Evento> todosEventos = new ArrayList<Evento>();
     private ArrayList<Evento> eventos;
 
+    //#region Construtores
     public Agenda() {
         eventos = new ArrayList<Evento>();
     }
 
-    public Agenda(ArrayList<Evento> eventos) {
+    //Usado internamente para retornar uma agenda com eventos definidos
+    private Agenda(ArrayList<Evento> eventos) {
         this.eventos = eventos;
     }
+    //#endregion
 
     //#region Getters
     public static ArrayList<Evento> getTodosEventos() {
@@ -95,4 +108,11 @@ public class Agenda {
         return new Agenda(new ArrayList<Evento>(novo));
     }
     //#endregion
+
+    @Override
+    public String toString() {
+    	String retorno = "Agenda";
+    	retorno += "\nEventos da agenda: "+this.getEventos();
+    	return retorno;
+    }
 }

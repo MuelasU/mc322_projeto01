@@ -140,6 +140,6 @@ public class Moderador extends Usuario {
 
     @Override
     public String toString() {
-        return super.toString() + " Moderador";
+        return " Moderador\n"+super.toString();
     }
 }

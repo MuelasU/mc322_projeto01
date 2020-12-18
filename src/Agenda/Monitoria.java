@@ -15,17 +15,19 @@ public class Monitoria extends Evento{
 	private ArrayList<Material> conteudo;
 	private String exerciciosSolicitados;
 	private String exerciciosPlanejados;
-    
-    public Monitoria(String nome, String descricao, Disciplina disciplina, Calendar data) {
-        super(nome, descricao, disciplina, data);
-        conteudo = new ArrayList<Material>();
-    }
-
+	
 	public Monitoria(String nome, String descricao, Disciplina disciplina, Calendar data, Duration duracao, int capacidade, String salaDeVideo, Instrutor instrutor) {
 		super(nome, descricao, disciplina, data, duracao, capacidade, salaDeVideo, instrutor);
 		conteudo = new ArrayList<Material>();
 	}
 	
+	//Usado para Estudante solicitar Monitoria
+	public Monitoria(String nome, String descricao, Disciplina disciplina, Calendar data) {
+		super(nome, descricao, disciplina, data);
+		conteudo = new ArrayList<Material>();
+		solicitacoes.add(this);
+	}
+
 	//#region Getters and Setters
     public static ArrayList<Monitoria> getSolicitacoes() {
         return solicitacoes;
@@ -60,12 +62,12 @@ public class Monitoria extends Evento{
 	 * Este método permite a algum {@link Estudante} participante submeter exercícios para resolução.
 	 * 
 	 * @param exercicios : separado por vírgulas apenas
-	 * @return {@code true} se submeteu. {@code false} caso contrário, qunado o <b>solicitante</b> não tenha participado da monitoria
+	 * @return {@code true} se submeteu. {@code false} caso contrário, quando o <b>solicitante</b> não tenha participado da monitoria
 	 */
 	public boolean solicitarExercicios(String exercicios, Estudante solicitante) {
-		boolean eventoJaFoi = getStatus() == StatusEvento.ACONTECEU;
+		boolean eventoAindaNaoFoi = getStatus() != StatusEvento.ACONTECEU;
 		boolean solicitanteParticipaDoEvento = getParticipantes().contains(solicitante);
-		if (!eventoJaFoi && solicitanteParticipaDoEvento) {
+		if (eventoAindaNaoFoi && solicitanteParticipaDoEvento) {
 			this.exerciciosSolicitados += exercicios + ",";
 			return true;
 		}
@@ -102,5 +104,15 @@ public class Monitoria extends Evento{
 			return getInstrutor().getAvaliacao().avaliar(nota, comentario);
 		}
 		return -1f;
+	}
+
+	@Override
+	public String toString() {
+		String retorno = "Monitoria";
+		retorno += "\nConteudo: "+this.getConteudo();
+		retorno += "\nExercicios solicitados: "+this.getExerciciosSolicitados();
+		retorno += "\nExercicios planejados: "+this.getExerciciosPlanejados()+"\n";
+		retorno += super.toString();
+		return retorno;
 	}
 }

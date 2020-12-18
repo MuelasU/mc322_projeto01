@@ -43,10 +43,10 @@ public class Evento {
         this.salaDeVideo = salaDeVideo;
         this.instrutor = instrutor;
         instrutor.getAgenda().getEventos().add(this);
+		Agenda.getTodosEventos().add(this);
         confirmado = true;
         status = StatusEvento.ACONTECERA;
         participantes = new ArrayList<Estudante>();
-		Agenda.getTodosEventos().add(this);
 	}
 
 	//Usado para Estudante solicitar Monitoria
@@ -187,6 +187,23 @@ public class Evento {
 			return true;
 		}
 		return false;
+	}
+	
+	@Override
+    public String toString() {
+        String retorno = "Evento";
+        retorno += "\nId: "+this.getId();
+        retorno += "\nNome: "+this.getNome();
+        retorno += "\nDescricao: "+this.getDescricao();
+        retorno += "\nDisciplina: "+this.getDisciplina();
+        retorno += "\nData: "+data.get(Calendar.DATE)+"/"+data.get(Calendar.MONTH)+"/"+data.get(Calendar.YEAR);
+        retorno = retorno + "\nParticipantes = {";
+        for (int i=0; i<this.getParticipantes().size(); i++) {
+            retorno = retorno + this.getParticipantes().get(i).getPerfil().getNome() + " ";
+        }
+        retorno = retorno + "}";
+        retorno += "\nConfirmado? "+this.isConfirmado()+"\n";
+        return retorno;
     }
 }
 

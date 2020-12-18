@@ -1,5 +1,8 @@
 package src.agenda;
 
+/**
+ * Representa a situação em que um {@link Evento} se encontra na linha do tempo.
+ */
 public enum StatusEvento {
 	/** Evento já ocorrido */
 	ACONTECEU(1, "Evento ja ocorrido"),

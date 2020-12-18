@@ -3,6 +3,14 @@ package src.repositorio;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import src.Estudante;
+import src.Instrutor;
+
+/**
+ * É um local de armanezamento de {@link Material} que são úteis para o {@link Estudante} analisar melhor o conteúdo e para o {@link Instrutor} ter uma base de conteúdo para seu trabalho.
+ * <p>
+ * O conjunto de {@code Diretorio} e {@code Material} formam o <b>repositório</b> do aplicativo.
+ */
 public class Diretorio {
     private static int numeroDiretorios = 0;
     private static ArrayList<Diretorio> solicitacoes;
@@ -109,12 +117,12 @@ public class Diretorio {
     //#endregion
     
     /**
-     * Este método realiza a busca de um {@link Diretorio} a partir de uma {@code String} <b>local</b>, que possui um formato específico.
-     * 
-     * @param root : deve ser passado o único {@code Diretorio} que é pai de todos os outros
-     * @param local : É no formato <em>root/dir/subdir/subsubdir/</em>
-     * @return referência para  o {@code Diretorio} procurado. Caso os parâmetros estejam incorretos, acontece um erro.
-     */
+    * Este método realiza a busca de um {@link Diretorio} a partir de uma {@code String} <b>local</b>, que possui um formato específico.
+    * 
+    * @param root : deve ser passado o único {@code Diretorio} que é pai de todos os outros
+    * @param local : É no formato <em>root/dir/subdir/subsubdir/</em>
+    * @return referência para  o {@code Diretorio} procurado. Caso os parâmetros estejam incorretos, acontece um erro.
+    */
     public static Diretorio getDiretorioPorLocal(Diretorio root, String local) {
         //divide a String local nos delimitadores /
         ArrayList<String> nomeDosDiretorios = new ArrayList<String>(Arrays.asList(local.split("/")));
@@ -136,24 +144,5 @@ public class Diretorio {
             return getDiretorioPorLocal(novoRoot, novoLocal);   //faz a busca novamente
         }
     }
-    
-    /**
-    * Este m�todo move um diretorio filho para um novo diretorio pai. 
-    * Faz a checagem se o usu�rio � o dono ou um moderador.
-    * Encontra o diret�rio pai antigo do diretorio filho.
-    * Pega o local do novo diretorio pai.
-    * Seta este local como o novo local do diretorio filho.
-    * Adiciona ao novo diretorio pai o diretorio filho.
-    * Remove do diretorio pai antigo o diretorio filho.
-    */
-    // public void mover(Diretorio destino, Usuario usuario) {
-    //     if (usuario == getDono() || user instanceof Moderador) {
-    //         diretorio_antigo = getDiretorioPorLocal(getLocal());
-    //         novo_local = diretorio.getLocal()+"/"+getNome();
-    //         setLocal(novo_local);
-    //         diretorio.aceitarDiretorio(diretorio_atual);
-    //         diretorio_antigo.removerDiretorio(diretorio_atual);
-    //     }
-    // }
-    
 }
+

@@ -112,7 +112,7 @@ public class Discussao extends Mensagem{
      */
 	public boolean resolver(Usuario usuario, Comentario comentario) {
         boolean usuarioEDono = usuario == getDono();
-        boolean comentarioEstaNaDiscussao = comentarios.contains(comentario);
+        boolean comentarioEstaNaDiscussao = getComentarios().contains(comentario);
 		if (usuarioEDono && comentarioEstaNaDiscussao) {
 			setMelhorSolucao(comentario);
 			setResolvida(true);
@@ -124,11 +124,11 @@ public class Discussao extends Mensagem{
 	@Override
 	public String toString() {
 		String out = "";
-		out += "Id da Discuss�o: " + getId() + "\n";
+		out += "Id da Discussao: " + getId() + "\n";
 		// out += getResolvida() + "\n";
-		out += "Coment�rios na discuss�o:\n" + getComentarios() + "\n";
+		out += "Comentarios na discussao:\n" + getComentarios() + "\n";
 		if (resolvida) {
-			out += "Melhor Solu��o: " + getMelhorSolucao();
+			out += "Melhor Solucao: " + getMelhorSolucao();
 		}
 		return out;
 	}

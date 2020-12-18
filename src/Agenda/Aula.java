@@ -73,4 +73,12 @@ public class Aula extends Evento{
 		}
 		return -1f;
 	}
+
+	@Override
+	public String toString() {
+		String retorno = "Aula";
+		retorno += "\nConteudo: "+this.getConteudo()+"\n";
+		retorno += super.toString();
+		return retorno;
+	}
 }

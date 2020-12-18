@@ -50,7 +50,5 @@ public class Mensagem {
 		out += "Mensagem:\n" + getTexto();
 		return out;
 	}
-	
-	
 }
 

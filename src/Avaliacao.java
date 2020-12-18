@@ -76,6 +76,9 @@ public class Avaliacao {
 
     @Override
     public String toString() {
-        return "Avaliacao";
+    	String retorno = "Avaliacoes";
+    	retorno += "\nMedia: "+this.getMedia();
+    	retorno += "\nComentarios: "+this.getComentarios()+"\n";
+    	return retorno;
     }
 }

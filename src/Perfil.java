@@ -12,12 +12,14 @@ public class Perfil {
     private Estado estado;
     private String cidade;
     private String telefone;
+    private Escolaridade escolaridade;
     private Calendar dataDeNascimento;
 
-    public Perfil(String nome, Estado estado, String cidade, Calendar dataDeNascimento) {
+    public Perfil(String nome, Estado estado, String cidade, Escolaridade escolaridade, Calendar dataDeNascimento) {
         this.nome = nome;
         this.estado = estado;
         this.cidade = cidade;
+        this.escolaridade = escolaridade;
         this.dataDeNascimento = dataDeNascimento;
     }
 
@@ -70,6 +72,14 @@ public class Perfil {
         this.telefone = telefone;
     }
 
+    public Escolaridade getEscolaridade() {
+        return escolaridade;
+    }
+
+    public void setEscolaridade(Escolaridade escolaridade) {
+        this.escolaridade = escolaridade;
+    }
+
     public Calendar getDataDeNascimento() {
         return dataDeNascimento;
     }
@@ -81,6 +91,11 @@ public class Perfil {
 
     @Override
     public String toString() {
-        return "Perfil";
+        String retorno = "Perfil";
+        retorno += "\nNome: "+this.getNome();
+        retorno += "\nLocal: "+this.getCidade()+"-"+this.getEstado().getSigla();
+        retorno += "\nEscolaridade: "+this.getEscolaridade().getDescricao();
+        retorno += "\nData de Nascimento: "+dataDeNascimento.get(Calendar.DATE)+"/"+dataDeNascimento.get(Calendar.MONTH)+1+"/"+dataDeNascimento.get(Calendar.YEAR)+"\n";
+        return retorno;
     }
 }
