@@ -135,5 +135,22 @@ public class Material {
 		Comentario comentario = new Comentario(texto, usuario);
         this.comentarios.add(comentario);
         return comentario;
+    }
+    
+    @Override
+	public String toString() {
+		String retorno = "Material";
+		retorno += "\nNome: "+this.nome+" (id: "+this.id+")";
+    	retorno += "\nDescricao: "+this.descricao;
+    	retorno += "\nDisciplina: "+this.disciplina;
+    	retorno += "\nLocal: "+this.local;
+    	retorno += "\nArquivo: "+this.arquivo;
+    	retorno += "\nDono: "+this.dono.getPerfil().getNome();
+    	retorno += "\nComentarios = {";
+        for (int i=0; i<this.getComentarios().size(); i++) {
+            retorno = retorno + this.getComentarios().get(i).getTexto() + " ";
+        }
+        retorno += "}\n";
+        return retorno;
 	}
 }

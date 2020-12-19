@@ -12,9 +12,9 @@ import src.agenda.Evento;
  * @see Nota
  */
 public class Avaliacao {
-    public int numeroAvaliacoes;
-    public float media;
-    public ArrayList<String> comentarios;
+    private int numeroAvaliacoes;
+    private float media;
+    private ArrayList<String> comentarios;
 
     public Avaliacao() {
         numeroAvaliacoes=0;
@@ -69,7 +69,7 @@ public class Avaliacao {
      */
     public float avaliar(Nota nota, String comentario) {
         numeroAvaliacoes++;
-        setMedia( (getMedia() + (float) nota.getValor()) / 2f);
+        setMedia( (getMedia() + (float) nota.getValor()) / (float) getNumeroAvaliacoes());
         getComentarios().add(comentario);
         return getMedia();
     }

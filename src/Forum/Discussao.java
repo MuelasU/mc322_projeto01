@@ -124,11 +124,15 @@ public class Discussao extends Mensagem{
 	@Override
 	public String toString() {
 		String out = "";
+		out += getTexto() + "\n";
 		out += "Id da Discussao: " + getId() + "\n";
-		// out += getResolvida() + "\n";
-		out += "Comentarios na discussao:\n" + getComentarios() + "\n";
+		out += "Respostas a discussao: ";
+        for (int i=0; i<this.getComentarios().size(); i++) {
+            out += "\n"+this.getComentarios().get(i).getTexto()+"; Gostei: "+this.getComentarios().get(i).getUpvotes()+"; Nao gostei: "+this.getComentarios().get(i).getDownvotes();
+        }
+        out += "\n";
 		if (resolvida) {
-			out += "Melhor Solucao: " + getMelhorSolucao();
+			out += "Melhor Solucao: " + getMelhorSolucao().getTexto();
 		}
 		return out;
 	}

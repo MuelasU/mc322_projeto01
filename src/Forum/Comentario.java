@@ -98,10 +98,15 @@ public class Comentario extends Mensagem{
 	@Override
 	public String toString() {
 		String out = "";
+		out += this.getTexto() + "\n";
 		out += "Id do Comentario: " + getId() + "\n";
 		out += getUpvotes() +" Curtiram :)\n";
 		out += getDownvotes() + " Nao Curtiram :(\n";
-		out += "Respostas ao comentario:\n" + getComentarios();
+		out += "Respostas ao comentario: ";
+        for (int i=0; i<this.getComentarios().size(); i++) {
+            out += "\n"+this.getComentarios().get(i).getTexto()+"; Gostei: "+this.getComentarios().get(i).getUpvotes()+"; N�o gostei: "+this.getComentarios().get(i).getDownvotes();
+        }
+        out += "\n";
 		return out;
 	}
 }

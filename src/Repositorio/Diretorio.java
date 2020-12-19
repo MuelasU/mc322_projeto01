@@ -13,7 +13,7 @@ import src.Instrutor;
  */
 public class Diretorio {
     private static int numeroDiretorios = 0;
-    private static ArrayList<Diretorio> solicitacoes;
+    private static ArrayList<Diretorio> solicitacoes = new ArrayList<Diretorio>();
     private int id;
     private String nome;
     private String descricao;
@@ -70,7 +70,7 @@ public class Diretorio {
         this.id = id;
     }
     
-    public boolean getVisivel() {
+    public boolean isVisivel() {
         return visivel;
     }
     
@@ -136,13 +136,33 @@ public class Diretorio {
             ArrayList<Diretorio> subDiretoriosDeRoot = root.getSubdiretorios();
             Diretorio novoRoot = null;
             for (Diretorio subdir : subDiretoriosDeRoot) { //busca o subdiretorio a partir do nome
-                boolean achei = subdir.getNome() == nomeDoNovoRoot;
+                boolean achei = nomeDoNovoRoot.equals(subdir.getNome());
                 novoRoot = achei ? subdir : null;
             }
             //determina a nova String local
             String novoLocal = String.join("/", nomeDosDiretorios) + "/";
             return getDiretorioPorLocal(novoRoot, novoLocal);   //faz a busca novamente
         }
+    }
+
+    @Override
+    public String toString() {
+    	String retorno = "Diretorio";
+    	retorno += "\nNome: "+this.nome+" (id: "+this.id+")";
+    	retorno += "\nDescricao: "+this.descricao;
+    	retorno += "\nLocal: "+this.local;
+    	retorno += "\nVisivel? "+this.isVisivel();
+    	retorno += "\nSubdiretorios = {";
+        for (int i=0; i<this.getSubdiretorios().size(); i++) {
+            retorno = retorno + this.getSubdiretorios().get(i).getNome() + " ";
+        }
+        retorno += "}";
+        retorno += "\nMateriais = {";
+        for (int i=0; i<this.getMateriais().size(); i++) {
+            retorno = retorno + this.getMateriais().get(i).getNome() + " ";
+        }
+        retorno += "}\n";
+    	return retorno;
     }
 }
 

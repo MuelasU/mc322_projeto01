@@ -180,8 +180,9 @@ public class Evento {
 		boolean eModerador = solicitante instanceof Moderador;
 		if (eInstrutorResponsavel || eModerador) {	
 			for (Estudante participante : getParticipantes()) {
-				participante.desinscreverEvento(this);
+				participante.getAgenda().getEventos().remove(this);
 			}
+			this.getParticipantes().clear();
 			Agenda.getTodosEventos().remove(this);
 			getInstrutor().getAgenda().getEventos().remove(this);
 			return true;
