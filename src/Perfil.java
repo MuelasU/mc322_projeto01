@@ -1,5 +1,6 @@
 package src;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
@@ -91,11 +92,12 @@ public class Perfil {
 
     @Override
     public String toString() {
+        SimpleDateFormat fmt = new SimpleDateFormat("dd/mm/yyyy");
         String retorno = "Perfil";
         retorno += "\nNome: "+this.getNome();
         retorno += "\nLocal: "+this.getCidade()+"-"+this.getEstado().getSigla();
         retorno += "\nEscolaridade: "+this.getEscolaridade().getDescricao();
-        retorno += "\nData de Nascimento: "+dataDeNascimento.get(Calendar.DATE)+"/"+dataDeNascimento.get(Calendar.MONTH)+1+"/"+dataDeNascimento.get(Calendar.YEAR)+"\n";
+        retorno += "\nData de Nascimento: " + fmt.format(this.getDataDeNascimento().getTime()) + "\n";
         return retorno;
     }
 }

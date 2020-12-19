@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.Scanner;
 
 import src.agenda.Aula;
 import src.agenda.Monitoria;
@@ -15,6 +16,36 @@ import src.repositorio.Material;
 
 public class Main {
     public static void main(String[] args) {
+		//#region Entrada de Dados
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("Bem-vindo, Estudante!\nInscreva-se para participar\n");
+		System.out.println("Insira seu nome:");
+		String nome = scanner.nextLine();
+		System.out.println("Insira sua cidade (de SP):");
+		String cidade = scanner.nextLine();
+		System.out.println("Qual seu nivel de escolaridade? (digite apenas o numero)");
+		String pergunta = "";
+		for (Escolaridade nivel : Escolaridade.values()) {
+			pergunta += nivel.getDescricao() + " [" + nivel.getId() + "]\n";
+		}
+		System.out.print(pergunta);
+		int escolaridadeId = scanner.nextInt();
+		Escolaridade escolaridade = null;
+		for (Escolaridade nivel : Escolaridade.values()) {
+			if(nivel.getId() == escolaridadeId) {escolaridade = nivel;};
+		}
+		scanner.nextLine();
+		Perfil perfil = new Perfil(nome, Estado.SAO_PAULO, cidade, escolaridade, new GregorianCalendar(2000,12,12));
+		System.out.println("Insira seu email:");
+		String email = scanner.nextLine();
+		System.out.println("Insira sua senha:");
+		String senha = scanner.nextLine();
+		Estudante estudante = new Estudante(email, senha, perfil);
+
+		System.out.println(estudante);
+		scanner.close();
+		//#endregion
+
 		//#region Instanciacao de Usuarios
 		//Criacao de disciplinas de interesse p/ o instrutor
     	ArrayList<Disciplina> disciplinas_instrutor1 = new ArrayList<Disciplina>();
