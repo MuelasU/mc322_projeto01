@@ -56,6 +56,10 @@ public class Material {
         return local;
     }
 
+    public void setLocal(String local) {
+        this.local = local;
+    }
+
     public Disciplina getDisciplina() {
         return disciplina;
     }

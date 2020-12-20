@@ -1,6 +1,8 @@
 package src;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 
 import src.agenda.Aula;
@@ -105,8 +107,12 @@ public class Moderador extends Usuario {
      * @return referência para o <b>diretorio</b> removido
      */
     public Diretorio removerDiretorio(Diretorio diretorio, Diretorio root) {
-        Diretorio diretorioPai = Diretorio.getDiretorioPorLocal(root, diretorio.getLocal());
+        ArrayList<String> nomesDiretorios = new ArrayList<String>(Arrays.asList(diretorio.getLocal().split("/")));
+        nomesDiretorios.remove(diretorio.getNome());
+        String localDiretorioPai = String.join("/", nomesDiretorios) + "/";
+        Diretorio diretorioPai = Diretorio.getDiretorioPorLocal(root, localDiretorioPai);
         diretorioPai.getSubdiretorios().remove(diretorio);
+        diretorio.setLocal("");
         return diretorio;
     }
     
@@ -121,9 +127,7 @@ public class Moderador extends Usuario {
      * @return referência para o {@code Material} instanciado
      */
     public Material adicionarMaterial(String arquivo, String nome, String descricao, Disciplina disciplina, Diretorio diretorio) {
-        Material material = new Material(arquivo, nome, descricao, disciplina, diretorio, this);
-        diretorio.getMateriais().add(material);
-        return material;
+        return new Material(arquivo, nome, descricao, disciplina, diretorio, this);
     }
 
     /**
@@ -135,6 +139,7 @@ public class Moderador extends Usuario {
     public Material removerMaterial(Material material, Diretorio root) {
         Diretorio diretorioPai = Diretorio.getDiretorioPorLocal(root, material.getLocal());
         diretorioPai.getMateriais().remove(material);
+        material.setLocal("");
         return material;
     }
 

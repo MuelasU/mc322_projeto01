@@ -44,9 +44,9 @@ public class Main {
 
 		System.out.println(estudante);
 		scanner.close();
-		//#endregion
-
-		//#region Instanciacao de Usuarios
+		// #endregion
+ 
+		// #region Instanciacao de Usuarios
 		//Criacao de disciplinas de interesse p/ o instrutor
     	ArrayList<Disciplina> disciplinas_instrutor1 = new ArrayList<Disciplina>();
     	disciplinas_instrutor1.add(Disciplina.MATEMATICA);
@@ -68,8 +68,8 @@ public class Main {
     	System.out.println(instrutor1);
 		System.out.println(moderador1);*/ //teste dos objetos instanciados
 		//#endregion
-
-		//#region Teste de Eventos
+ 
+		// #region Teste de Eventos
 		//As tres linhas abaixo correspondem a criacao de um tempo "Duration" padrao
     	Instant start = Instant.parse("2020-01-01T10:00:00.00Z");
     	Instant end = Instant.parse("2020-01-02T10:00:00.00Z");
@@ -129,40 +129,46 @@ public class Main {
 		// System.out.println("Filtrar eventos de Quimica");
 		// System.out.println(Agenda.getAgendaGeral().filtraPorDisciplina(Disciplina.QUIMICA).getEventos());
 		//#endregion
-	
-		//#region Teste de Repositorio
-		//As 4 linhas abaixo criam um diretorio base e testam o metodo de criar diretorio da classe moderador
+	 
+		// #region Teste de Repositorio
+		// As 4 linhas abaixo criam um diretorio base e testam o metodo de criar diretorio da classe moderador
 		Diretorio root = new Diretorio();
-		//System.out.println(root);
+		// System.out.println(root);
 		Diretorio diretorio1 = moderador1.criarDiretorio("matematica", "contem todo conteudo de matematica", root);
-		//System.out.println(diretorio1);
+		// System.out.println(diretorio1);
 
 		//testa o metodo solicitar diretorio da classe instrutor
 		Diretorio diretorio2 = instrutor1.solicitarDiretorio("funcoes_de_segundo_grau", "dedicado a funcoes quadraticas polinomiais", diretorio1);
-    	//System.out.println(diretorio2); 
+		// System.out.println(diretorio2);
 		
 		//testa o metodo aceitar diretorio da classe moderador
     	moderador1.aceitarDiretorio(diretorio2);
-		//System.out.println(diretorio2);
+		// System.out.println(diretorio2);
 		
 		//testa o metodo adicionar material da classe instrutor
 		Material material1 = instrutor1.adicionarMaterial("bhaskara.pdf", "Solucao por bhaskara", "raizes de funcoes quadraticas", Disciplina.MATEMATICA, diretorio2);
     	//System.out.println(material1);
 		
 		//testa o metodo adicionar material da classe moderador
-    	Material material2 = moderador1.adicionarMaterial("mateca_basica.pdf", "operacoes basicas", "divisao, subtracao, etc", Disciplina.MATEMATICA, diretorio1);
+		Material material2 = moderador1.adicionarMaterial("mateca_basica.pdf", "operacoes basicas", "divisao, subtracao, etc", Disciplina.MATEMATICA, diretorio1);
     	//System.out.println(material2);
 		
 		//testa o metodo comentar da classe material
     	Comentario comentario1 = material2.comentar("material top, parabens", estudante2);
 		//System.out.println(material2);
 		
-		Material material3 = moderador1.adicionarMaterial("soma_e_produto.pdf", "", "raizes por soma e produto", Disciplina.MATEMATICA, diretorio1);
+		Material material3 = moderador1.adicionarMaterial("soma_e_produto.pdf", "Soma e Produto", "raizes por soma e produto", Disciplina.MATEMATICA, diretorio1);
 		//System.out.println(material3);
 		
 		//testa o metodo mover da classe material
 		material3.mover(diretorio2, root, moderador1);
 		//System.out.println(material3);
+		
+		//testa os metodos remover diretorio e remover material
+		moderador1.removerDiretorio(diretorio2, root);
+		// System.out.println(diretorio1);
+		moderador1.removerMaterial(material2, root);
+		// System.out.println(diretorio1);
 		//#endregion
 
 		//#region Teste de Discussoes

@@ -86,6 +86,10 @@ public class Diretorio {
     public String getLocal() {
         return local;
     }
+
+    public void setLocal(String local) {
+        this.local = local;
+    }
     
     public ArrayList<Diretorio> getSubdiretorios() {
         return subdiretorios;
