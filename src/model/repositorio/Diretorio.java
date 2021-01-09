@@ -1,10 +1,10 @@
-package src.repositorio;
+package src.model.repositorio;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import src.Estudante;
-import src.Instrutor;
+import src.model.Estudante;
+import src.model.Instrutor;
 
 /**
  * É um local de armanezamento de {@link Material} que são úteis para o {@link Estudante} analisar melhor o conteúdo e para o {@link Instrutor} ter uma base de conteúdo para seu trabalho.

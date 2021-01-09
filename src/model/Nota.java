@@ -1,4 +1,4 @@
-package src;
+package src.model;
 
 /**
  * Corresponde a uma nota avaliativa dada pelos {@link Estudante} ao {@link Instrutor}.

@@ -1,18 +1,19 @@
-package src.forum;
+package src.model.forum;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import src.Disciplina;
-import src.Usuario;
-import src.repositorio.Material;
+import src.model.Comentavel;
+import src.model.Disciplina;
+import src.model.Usuario;
+import src.model.repositorio.Material;
 
 /**
  * É um tipo de {@link Mensagem} que visa estabelecer uma discussão sobre algum conteúdo.
  * <p>
  * O conjunto de discussões forma o <b>fórum</b> do aplicativo.
  */
-public class Discussao extends Mensagem{
+public class Discussao extends Mensagem implements Comentavel {
     private static int numeroDiscussoes = 0;
     private int id;
 	private Disciplina disciplina;
@@ -21,7 +22,7 @@ public class Discussao extends Mensagem{
 	private Comentario melhorSolucao;
 	private ArrayList<Material> referencia;
 	
-	public Discussao(String texto, Usuario dono, Disciplina disciplina, Material... referencia){
+	public Discussao(String texto, Usuario dono, Disciplina disciplina, Material... referencia) {
 		super(texto, dono);
         id = numeroDiscussoes;
         numeroDiscussoes++;
@@ -64,10 +65,12 @@ public class Discussao extends Mensagem{
         this.resolvida = resolvida;
     }
 
+    @Override
     public ArrayList<Comentario> getComentarios() {
         return comentarios;
     }
 
+    @Override
     public void setComentarios(ArrayList<Comentario> comentarios) {
         this.comentarios = comentarios;
     }
@@ -89,13 +92,6 @@ public class Discussao extends Mensagem{
     }
     //#endregion
 	
-    /**
-     * Este método adiciona um novo {@link Comentario} na {@link Discussao}.
-     * 
-     * @param texto
-     * @param usuario
-     * @return referência para o {@code Comentario} adicionado
-     */
 	public Comentario comentar(String texto, Usuario usuario) {
 		Comentario comentario = new Comentario(texto, usuario);
         this.comentarios.add(comentario);

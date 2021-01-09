@@ -1,12 +1,12 @@
-package src.agenda;
+package src.model.agenda;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import src.Disciplina;
-import src.Usuario;
+import src.model.Disciplina;
+import src.model.Usuario;
 
 /**
  * Esta classe representa a lista de {@link Evento} do aplicativo. Ela pode estar associada a todo {@link Usuario}, guardando as informações dos {@code Evento} em que ele está inscrito, ou pode estar associada ao aplicativo como um todo, guardando informações de todos {@code Evento} independentemente de {@code Usuario}.

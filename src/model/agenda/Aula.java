@@ -1,14 +1,12 @@
-package src.agenda;
+package src.model.agenda;
 
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.Calendar;
 
-import src.Disciplina;
-import src.Estudante;
-import src.Instrutor;
-import src.Nota;
-import src.repositorio.Material;
+import src.model.Disciplina;
+import src.model.Estudante;
+import src.model.Instrutor;
+import src.model.Nota;
 
 /**
  * É um {@link Evento} no qual um conteúdo é ministrado por algum {@link Instrutor}.
@@ -16,23 +14,13 @@ import src.repositorio.Material;
  * Possui, adicionalmente, atributos "exercícios recomendados" e "conteúdo".
  */
 public class Aula extends Evento{
-	private ArrayList<Material> conteudo;
 	private String exerciciosRecomendados;
 	
 	public Aula(String nome, String descricao, Disciplina disciplina, Calendar data, Duration duracao, int capacidade, String salaDeVideo, Instrutor instrutor) {
 		super(nome, descricao, disciplina, data, duracao, capacidade, salaDeVideo, instrutor);
-		conteudo = new ArrayList<Material>();
 	}
 
 	//#region Getters and Setters
-	public ArrayList<Material> getConteudo() {
-		return conteudo;
-	}
-
-	public void setConteudo(ArrayList<Material> conteudo) {
-		this.conteudo = conteudo;
-	}
-
 	public String getExerciciosRecomendados() {
 		return exerciciosRecomendados;
 	}
@@ -42,34 +30,22 @@ public class Aula extends Evento{
 	}
 	//#endregion
 	
-	/**
-     * Avalia o {@link Instrutor} com uma {@link Nota}.
-     * 
-     * @param nota
-	 * @param avaliador
-     * @return nova nota média do {@code Instrutor}. {@code -1} caso <b>avaliador</b> não tenha participado da aula.
-     */
+	@Override
 	public float avaliarInstrutor(Nota nota, Estudante avaliador) {
 		boolean eventoAcontece = getStatus() != StatusEvento.ACONTECERA;
 		boolean avaliadorParticipouDoEvento = getParticipantes().contains(avaliador);
 		if (eventoAcontece && avaliadorParticipouDoEvento) {
-			return getInstrutor().getAvaliacao().avaliar(nota);
+			return getInstrutor().getAvaliacao().avaliarAula(nota);
 		}
 		return -1f;	
 	}
-
-	/**
-     * Avalia o {@link Instrutor} com uma {@link Nota} e acrescenta um comentário de feedback.
-     * 
-     * @param nota
-     * @param comentario
-     * @return nova nota média do {@code Instrutor}. {@code -1} caso <b>avaliador</b> não tenha participado da aula.
-     */
+	
+	@Override
 	public float avaliarInstrutor(Nota nota, String comentario, Estudante avaliador) {
 		boolean eventoAcontece = getStatus() != StatusEvento.ACONTECERA;
 		boolean avaliadorParticipouDoEvento = getParticipantes().contains(avaliador);
 		if (eventoAcontece && avaliadorParticipouDoEvento) {
-			return getInstrutor().getAvaliacao().avaliar(nota, comentario);
+			return getInstrutor().getAvaliacao().avaliarAula(nota, comentario);
 		}
 		return -1f;
 	}

@@ -1,20 +1,22 @@
-package src.repositorio;
+package src.model.repositorio;
 
+import java.io.File;
 import java.util.ArrayList;
 
-import src.Disciplina;
-import src.Moderador;
-import src.Usuario;
-import src.forum.Comentario;
-import src.forum.Discussao;
+import src.model.Comentavel;
+import src.model.Disciplina;
+import src.model.Moderador;
+import src.model.Usuario;
+import src.model.forum.Comentario;
 
 /**
  * Esta classe representa algum conteúdo que deve ser compartilhado no aplicativo.
  */
-public class Material {
+public class Material implements Comentavel{
     private static int numeroMateriais = 0;
     private int id;
-    private String arquivo;
+    // private String arquivo;
+    private File arquivo;
     private String nome;
     private String descricao;
     private Disciplina disciplina;
@@ -22,7 +24,7 @@ public class Material {
     private ArrayList<Comentario> comentarios;
     private final Usuario dono;
     
-    public Material(String arquivo, String nome, String descricao, Disciplina disciplina, Diretorio diretorio, Usuario dono) {
+    public Material(/*String arquivo, */File arquivo, String nome, String descricao, Disciplina disciplina, Diretorio diretorio, Usuario dono) {
         id = numeroMateriais;
         numeroMateriais++;
         this.arquivo = arquivo;
@@ -68,11 +70,11 @@ public class Material {
         this.disciplina = disciplina;
     }
 
-    public String getArquivo() {
+    public /*String*/File getArquivo() {
         return arquivo;
     }
 
-    public void setArquivo(String arquivo) {
+    public void setArquivo(/*String*/File arquivo) {
         this.arquivo = arquivo;
     }
 
@@ -128,13 +130,7 @@ public class Material {
         return false;
     }
     
-    /**
-     * Este método adiciona um novo {@link Comentario} na {@link Discussao}.
-     * 
-     * @param texto
-     * @param usuario
-     * @return referência para o {@code Comentario} adicionado
-     */
+    @Override
 	public Comentario comentar(String texto, Usuario usuario) {
 		Comentario comentario = new Comentario(texto, usuario);
         this.comentarios.add(comentario);

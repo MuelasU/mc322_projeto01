@@ -1,49 +1,52 @@
-package src;
+package src.model;
 
+import java.io.File;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
 
-import src.agenda.Aula;
-import src.agenda.Monitoria;
-import src.agenda.StatusEvento;
-import src.forum.Comentario;
-import src.forum.Discussao;
-import src.repositorio.Diretorio;
-import src.repositorio.Material;
+import src.model.agenda.Agenda;
+import src.model.agenda.Aula;
+import src.model.agenda.Evento;
+import src.model.agenda.Monitoria;
+import src.model.agenda.StatusEvento;
+import src.model.forum.Comentario;
+import src.model.forum.Discussao;
+import src.model.repositorio.Diretorio;
+import src.model.repositorio.Material;
 
 public class Main {
     public static void main(String[] args) {
 		//#region Entrada de Dados
-		Scanner scanner = new Scanner(System.in);
-		System.out.println("Bem-vindo, Estudante!\nInscreva-se para participar\n");
-		System.out.println("Insira seu nome:");
-		String nome = scanner.nextLine();
-		System.out.println("Insira sua cidade (de SP):");
-		String cidade = scanner.nextLine();
-		System.out.println("Qual seu nivel de escolaridade? (digite apenas o numero)");
-		String pergunta = "";
-		for (Escolaridade nivel : Escolaridade.values()) {
-			pergunta += nivel.getDescricao() + " [" + nivel.getId() + "]\n";
-		}
-		System.out.print(pergunta);
-		int escolaridadeId = scanner.nextInt();
-		Escolaridade escolaridade = null;
-		for (Escolaridade nivel : Escolaridade.values()) {
-			if(nivel.getId() == escolaridadeId) {escolaridade = nivel;};
-		}
-		scanner.nextLine();
-		Perfil perfil = new Perfil(nome, Estado.SAO_PAULO, cidade, escolaridade, new GregorianCalendar(2000,12,12));
-		System.out.println("Insira seu email:");
-		String email = scanner.nextLine();
-		System.out.println("Insira sua senha:");
-		String senha = scanner.nextLine();
-		Estudante estudante = new Estudante(email, senha, perfil);
+		// Scanner scanner = new Scanner(System.in);
+		// System.out.println("Bem-vindo, Estudante!\nInscreva-se para participar\n");
+		// System.out.println("Insira seu nome:");
+		// String nome = scanner.nextLine();
+		// System.out.println("Insira sua cidade (de SP):");
+		// String cidade = scanner.nextLine();
+		// System.out.println("Qual seu nivel de escolaridade? (digite apenas o numero)");
+		// String pergunta = "";
+		// for (Escolaridade nivel : Escolaridade.values()) {
+			// pergunta += nivel.getDescricao() + " [" + nivel.getId() + "]\n";
+		// }
+		// System.out.print(pergunta);
+		// int escolaridadeId = scanner.nextInt();
+		// Escolaridade escolaridade = null;
+		// for (Escolaridade nivel : Escolaridade.values()) {
+			// if(nivel.getId() == escolaridadeId) {escolaridade = nivel;};
+		// }
+		// scanner.nextLine();
+		// Perfil perfil = new Perfil(nome, Estado.SAO_PAULO, cidade, escolaridade, new GregorianCalendar(2000,12,12));
+		// System.out.println("Insira seu email:");
+		// String email = scanner.nextLine();
+		// System.out.println("Insira sua senha:");
+		// String senha = scanner.nextLine();
+		// Estudante estudante = new Estudante(email, senha, perfil);
 
-		System.out.println(estudante);
-		scanner.close();
+		// System.out.println(estudante);
+		// scanner.close();
 		// #endregion
  
 		// #region Instanciacao de Usuarios
@@ -96,7 +99,7 @@ public class Main {
     	//System.out.println(aula2);
     	moderador1.cancelarEvento(aula1);
         //System.out.println(aula1); //teste do metodo cancelarEvento de moderador
-        
+		
     	//As 5 linhas abaixo testam o metodo remover evento, inclusive com um estudante inscrito
     	Monitoria monitoria2 = moderador1.criarMonitoria("a", "", Disciplina.GEOGRAFIA, new GregorianCalendar(2020,12,16), duracao_padrao, 10, "meet...", instrutor1);
     	//System.out.println(monitoria2); //teste de criarMonitoria do moderador
@@ -126,8 +129,8 @@ public class Main {
 		
 		//As 3 linhas abaixo testam um metodo de filtro da classe Agenda
 		// System.out.println(Agenda.getAgendaGeral().getEventos());
-		// System.out.println("Filtrar eventos de Quimica");
-		// System.out.println(Agenda.getAgendaGeral().filtraPorDisciplina(Disciplina.QUIMICA).getEventos());
+		// System.out.println("Filtrar eventos de Historia");
+		// System.out.println(Agenda.getAgendaGeral().filtraPorDisciplina(Disciplina.HISTORIA).getEventos());
 		//#endregion
 	 
 		// #region Teste de Repositorio
@@ -146,18 +149,18 @@ public class Main {
 		// System.out.println(diretorio2);
 		
 		//testa o metodo adicionar material da classe instrutor
-		Material material1 = instrutor1.adicionarMaterial("bhaskara.pdf", "Solucao por bhaskara", "raizes de funcoes quadraticas", Disciplina.MATEMATICA, diretorio2);
+		Material material1 = instrutor1.adicionarMaterial(new File("Instrutor.java"), "Solucao por bhaskara", "raizes de funcoes quadraticas", Disciplina.MATEMATICA, diretorio2);
     	//System.out.println(material1);
 		
 		//testa o metodo adicionar material da classe moderador
-		Material material2 = moderador1.adicionarMaterial("mateca_basica.pdf", "operacoes basicas", "divisao, subtracao, etc", Disciplina.MATEMATICA, diretorio1);
+		Material material2 = moderador1.adicionarMaterial(new File("Instrutor.java"), "operacoes basicas", "divisao, subtracao, etc", Disciplina.MATEMATICA, diretorio1);
     	//System.out.println(material2);
 		
 		//testa o metodo comentar da classe material
     	Comentario comentario1 = material2.comentar("material top, parabens", estudante2);
 		//System.out.println(material2);
 		
-		Material material3 = moderador1.adicionarMaterial("soma_e_produto.pdf", "Soma e Produto", "raizes por soma e produto", Disciplina.MATEMATICA, diretorio1);
+		Material material3 = moderador1.adicionarMaterial(new File("Instrutor.java"), "Soma e Produto", "raizes por soma e produto", Disciplina.MATEMATICA, diretorio1);
 		//System.out.println(material3);
 		
 		//testa o metodo mover da classe material
@@ -184,8 +187,8 @@ public class Main {
     	// System.out.println(comentario4);
 		
     	//As 3 linhas acima testam os metodos de upvote e downvote de comentario
-		comentario2.upvote();
-    	comentario2.downvote();
+		comentario2.upvote(estudante1);
+    	comentario2.downvote(estudante2);
     	//System.out.println(comentario2);
     	
     	discussao1.resolver(estudante1, comentario2);

@@ -1,4 +1,4 @@
-package src.agenda;
+package src.model.agenda;
 
 /**
  * Representa a situação em que um {@link Evento} se encontra na linha do tempo.

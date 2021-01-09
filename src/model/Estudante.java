@@ -1,22 +1,22 @@
-package src;
+package src.model;
 
 import java.util.Calendar;
 
-import src.agenda.Agenda;
-import src.agenda.Evento;
-import src.agenda.Monitoria;
-import src.forum.Discussao;
-import src.repositorio.Material;
+import src.model.agenda.Agenda;
+import src.model.agenda.Evento;
+import src.model.agenda.Monitoria;
+import src.model.forum.Discussao;
+import src.model.repositorio.Material;
 
 /**
  * É um tipo de {@link Usuario} que busca no aplicativo ajuda para seus estudos. É o principal público alvo do aplicativo.
  * <p>
  * O {@code Estudante} encontra no aplicativo oportunidades de assistir a aulas de diversas disciplinas, participar de monitorias e fóruns de discussão, e encontrar conteúdos úteis para seu aprendizado.
  * 
- * @see src.agenda.Aula
- * @see src.agenda.Monitoria
- * @see src.forum.Discussao
- * @see src.repositorio.Material
+ * @see src.model.agenda.Aula
+ * @see src.model.agenda.Monitoria
+ * @see src.model.forum.Discussao
+ * @see src.model.repositorio.Material
  */
 public class Estudante extends Usuario {
     public Estudante(String email, String senha, Perfil perfil) {

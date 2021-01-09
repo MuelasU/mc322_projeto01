@@ -1,4 +1,4 @@
-package src;
+package src.model;
 
 /**
  * Estes níveis escolares representam os graus de escolaridade.

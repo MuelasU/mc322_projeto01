@@ -1,13 +1,14 @@
-package src;
+package src.model;
 
+import java.io.File;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import src.agenda.Aula;
-import src.agenda.Evento;
-import src.agenda.Monitoria;
-import src.repositorio.*;
+import src.model.agenda.Aula;
+import src.model.agenda.Evento;
+import src.model.agenda.Monitoria;
+import src.model.repositorio.*;
 
 /**
  * É um tipo de {@link Usuario} que possui habilidades necessárias para ministrar aulas, realizar monitorias e disponibilizar conteúdos. Este usuário é responsável por fazer o trabalho docente no contexto educacional do aplicativo.
@@ -37,7 +38,7 @@ public class Instrutor extends Usuario {
     //#endregion
     
     /**
-     * Este método permite ao {@link Instrutor} agendar uma {@link Aula}. Fazendo isto, ele se responsabiliza em gerenciar o {@link Evento} e ministrar a aula.
+     * Este método permite ao {@link Instrutor} agendar um {@link Evento} do tipo {@link Aula} ou {@link Monitoria}. Fazendo isto, ele se responsabiliza em gerenciar o {@code Evento} e ministrá-lo.
      * 
      * @param nome
      * @param descricao
@@ -46,28 +47,16 @@ public class Instrutor extends Usuario {
      * @param duracao
      * @param capacidade
      * @param salaDeVideo
-     * @return referência para a {@code Aula} instanciada. {@code null} caso <b>data</b> já tenha passado
+     * @param ehAula
+     * @return referência para a {@code Aula} ou {@code Monitoria} instanciada. {@code null} caso <b>data</b> já tenha passado
      */
-    public Aula criarAula(String nome, String descricao, Disciplina disciplina, Calendar data, Duration duracao, int capacidade, String salaDeVideo) {
+    public Evento criarEvento(String nome, String descricao, Disciplina disciplina, Calendar data, Duration duracao, int capacidade, String salaDeVideo, boolean ehAula) {
         boolean dataEstaNoFuturo = data.after(Calendar.getInstance());
-        return dataEstaNoFuturo ? new Aula(nome, descricao, disciplina, data, duracao, capacidade, salaDeVideo, this) : null;
-    }
-
-    /**
-     * Este método permite ao {@link Instrutor} agendar uma {@link Monitoria}. Fazendo isto, ele se responsabiliza em gerenciar o {@link Evento} e dar a monitoria.
-     * 
-     * @param nome
-     * @param descricao
-     * @param disciplina
-     * @param data
-     * @param duracao
-     * @param capacidade
-     * @param salaDeVideo
-     * @return referência para a {@code Monitoria} instanciada. {@code null} caso <b>data</b> já tenha passado
-     */
-    public Monitoria criarMonitoria(String nome, String descricao, Disciplina disciplina, Calendar data, Duration duracao, int capacidade, String salaDeVideo) {
-        boolean dataEstaNoFuturo = data.after(Calendar.getInstance());
-        return dataEstaNoFuturo ? new Monitoria(nome, descricao, disciplina, data, duracao, capacidade, salaDeVideo, this) : null;
+        if (dataEstaNoFuturo) {
+            return ehAula ? new Aula(nome, descricao, disciplina, data, duracao, capacidade, salaDeVideo, this)
+                             : new Monitoria(nome, descricao, disciplina, data, duracao, capacidade, salaDeVideo, this);
+        }
+        return null;
     }
     
     /**
@@ -116,7 +105,7 @@ public class Instrutor extends Usuario {
      * @param diretorio
      * @return referência para o {@code Material} instanciado
      */
-    public Material adicionarMaterial(String arquivo, String nome, String descricao, Disciplina disciplina, Diretorio diretorio) {
+    public Material adicionarMaterial(File arquivo, String nome, String descricao, Disciplina disciplina, Diretorio diretorio) {
         return new Material(arquivo, nome, descricao, disciplina, diretorio, this);
     }
 

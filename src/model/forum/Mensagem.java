@@ -1,8 +1,8 @@
-package src.forum;
+package src.model.forum;
 
 import java.util.Calendar;
 
-import src.Usuario;
+import src.model.Usuario;
 
 /**
  * Este elemento representa um modo de interação entre os {@link Usuario} do aplicativo.

@@ -1,16 +1,17 @@
-package src;
+package src.model;
 
+import java.io.File;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 
-import src.agenda.Aula;
-import src.agenda.Evento;
-import src.agenda.Monitoria;
-import src.repositorio.Diretorio;
-import src.repositorio.Material;
-import src.forum.Discussao;
+import src.model.agenda.Aula;
+import src.model.agenda.Evento;
+import src.model.agenda.Monitoria;
+import src.model.repositorio.Diretorio;
+import src.model.repositorio.Material;
+import src.model.forum.Discussao;
 
 /** 
  * É um tipo de {@link Usuario} que possui habilidades especiais, úteis para gerenciar o aplicativo e mantê-lo coeso.
@@ -31,29 +32,16 @@ public class Moderador extends Usuario {
      * @param capacidade
      * @param salaDeVideo
      * @param instrutor
+     * @param ehAula
      * @return referência para a {@code Aula} instanciada. {@code null} caso a {@code Aula} seja impossível de ser realizada.
      */
-    public Aula criarAula(String nome, String descricao, Disciplina disciplina, Calendar data, Duration duracao, int capacidade, String salaDeVideo, Instrutor instrutor) {
+    public Evento criarEvento(String nome, String descricao, Disciplina disciplina, Calendar data, Duration duracao, int capacidade, String salaDeVideo, Instrutor instrutor, boolean ehAula) {
         boolean dataEstaNoFuturo = data.after(Calendar.getInstance());
-        return dataEstaNoFuturo ? new Aula(nome, descricao, disciplina, data, duracao, capacidade, salaDeVideo, instrutor) : null;
-    }
-
-    /**
-     * Este método permite ao {@link Moderador} agendar uma {@link Monitoria}.
-     *  
-     * @param nome
-     * @param descricao
-     * @param disciplina
-     * @param data
-     * @param duracao
-     * @param capacidade
-     * @param salaDeVideo
-     * @param instrutor
-     * @return referência para a {@code Monitoria} instanciada. {@code null} caso a {@code Monitoria} seja impossível de ser realizada.
-     */
-    public Monitoria criarMonitoria(String nome, String descricao, Disciplina disciplina, Calendar data, Duration duracao, int capacidade, String salaDeVideo, Instrutor instrutor) {
-        boolean dataEstaNoFuturo = data.after(Calendar.getInstance());
-        return dataEstaNoFuturo ? new Monitoria(nome, descricao, disciplina, data, duracao, capacidade, salaDeVideo, instrutor) : null;
+        if (dataEstaNoFuturo) {
+            return dataEstaNoFuturo ? new Aula(nome, descricao, disciplina, data, duracao, capacidade, salaDeVideo, instrutor)
+                                    : new Monitoria(nome, descricao, disciplina, data, duracao, capacidade, salaDeVideo, instrutor);
+        }
+        return null;
     }
     
     /**
@@ -126,7 +114,7 @@ public class Moderador extends Usuario {
      * @param diretorio
      * @return referência para o {@code Material} instanciado
      */
-    public Material adicionarMaterial(String arquivo, String nome, String descricao, Disciplina disciplina, Diretorio diretorio) {
+    public Material adicionarMaterial(File arquivo, String nome, String descricao, Disciplina disciplina, Diretorio diretorio) {
         return new Material(arquivo, nome, descricao, disciplina, diretorio, this);
     }
 

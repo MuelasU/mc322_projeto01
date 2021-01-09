@@ -1,21 +1,23 @@
-package src.agenda;
+package src.model.agenda;
 
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import src.Disciplina;
-import src.Estudante;
-import src.Instrutor;
-import src.Moderador;
-import src.Usuario;
+import src.model.Disciplina;
+import src.model.Estudante;
+import src.model.Instrutor;
+import src.model.Moderador;
+import src.model.Nota;
+import src.model.Usuario;
+import src.model.repositorio.Material;
 
 /**
  * Representa um evento do tipo {@link Aula} ou {@link Monitoria}.
  * <p>
  * Possui um {@link Instrutor} responsável, {@link Estudante} participantes, data, duração e outras características comuns a um evento.
  */
-public class Evento {
+public abstract class Evento {
     private static int numeroEventos = 0;
     private int id;
     private String nome;
@@ -28,7 +30,8 @@ public class Evento {
     private String salaDeVideo;
     private StatusEvento status;
     private Instrutor instrutor;
-    private ArrayList<Estudante> participantes;
+	private ArrayList<Estudante> participantes;
+	private ArrayList<Material> conteudo;
 	
 	//#region Construtuores
     public Evento(String nome, String descricao, Disciplina disciplina, Calendar data, Duration duracao, int capacidade, String salaDeVideo, Instrutor instrutor) {
@@ -165,8 +168,20 @@ public class Evento {
 	public void setDisciplina(Disciplina disciplina) {
 		this.disciplina = disciplina;
 	}
+
+	public ArrayList<Material> getConteudo() {
+		return conteudo;
+	}
+
+	public void setConteudo(ArrayList<Material> conteudo) {
+		this.conteudo = conteudo;
+	}
     //#endregion
 	
+	public abstract float avaliarInstrutor(Nota nota, Estudante avaliador);
+
+	public abstract float avaliarInstrutor(Nota nota, String comentario, Estudante avaliador);
+
 	/**
      * Remove um {@link Evento} do aplicativo.
 	 * <p>
@@ -176,9 +191,9 @@ public class Evento {
 	 * @return {@code true} se removeu. {@code false} caso contrário, quando <b>solicitante</b> não tem permissão para tal
 	 */
     public boolean removeEvento(Usuario solicitante) {
-		boolean eInstrutorResponsavel = (solicitante instanceof Instrutor && solicitante == getInstrutor());
-		boolean eModerador = solicitante instanceof Moderador;
-		if (eInstrutorResponsavel || eModerador) {	
+		boolean ehInstrutorResponsavel = (solicitante instanceof Instrutor && solicitante == getInstrutor());
+		boolean ehModerador = solicitante instanceof Moderador;
+		if (ehInstrutorResponsavel || ehModerador) {	
 			for (Estudante participante : getParticipantes()) {
 				participante.getAgenda().getEventos().remove(this);
 			}

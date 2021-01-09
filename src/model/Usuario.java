@@ -1,15 +1,15 @@
-package src;
+package src.model;
 
 import java.util.Calendar;
 
-import src.agenda.Agenda;
+import src.model.agenda.Agenda;
 
 /**
  * Implementa o elemento fundamental deste aplicativo.
  * <p>
  * Esta classe representa o usuario que utiliza o aplicativo e se subdivide nas subclasses {@link Estudante}, {@link Instrutor} e {@link Moderador}, cada uma contendo suas especificações.
  */
-public class Usuario {
+public abstract class Usuario {
     private static int numeroUsuarios = 0;
     private int id;
     private String email;

@@ -1,4 +1,4 @@
-package src;
+package src.model;
 
 public enum Estado {
     RIO_GRANDE_DO_SUL("RS", "Rio Grande do Sul"),

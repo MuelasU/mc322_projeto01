@@ -1,20 +1,22 @@
-package src.forum;
+package src.model.forum;
 
 import java.util.ArrayList;
 
-import src.Usuario;
-import src.repositorio.Material;
+import src.model.Comentavel;
+import src.model.Usuario;
+import src.model.repositorio.Material;
 
 /**
  * É um tipo de {@link Mensagem} útil para responder ou ressaltar alguma informação em alguma {@link Discussao} ou algum {@link Material}.
  * <p>
  * Um {@code Comentario} pode ainda ser avaliado positivamente ou negativamente a partir de {@code upvotes} e {@code downvotes}.
  */
-public class Comentario extends Mensagem{
+public class Comentario extends Mensagem implements Comentavel, Comparable<Comentario> {
     private static int numeroComentarios = 0;
 	private int id;
 	private int upvotes;
 	private int downvotes;
+	private ArrayList<Usuario> votantes;
 	private ArrayList<Comentario> comentarios;
 	
 	public Comentario(String texto, Usuario dono){
@@ -23,6 +25,7 @@ public class Comentario extends Mensagem{
         numeroComentarios++;
         upvotes = 0;
 		downvotes = 0;
+		votantes = new ArrayList<Usuario>();
 		comentarios = new ArrayList<Comentario>();
 	}
 	
@@ -59,40 +62,60 @@ public class Comentario extends Mensagem{
 		this.downvotes = downvotes;
 	}
 
+	public ArrayList<Usuario> getVotantes() {
+		return votantes;
+	}
+
+	@Override
 	public ArrayList<Comentario> getComentarios() {
 		return comentarios;
 	}
 
+	@Override
 	public void setComentarios(ArrayList<Comentario> comentarios) {
 		this.comentarios = comentarios;
 	}
 	//#endregion
 	
 	/**
-	 * Este método avalia positivamente algum {@link Comentario}.
+	 * Este método avalia positivamente algum {@link Comentario}. Um {@link Usuario} só pode votar uma vez
+	 * 
+	 * @param votante
 	 */
-	public void upvote() {
-		upvotes++;
+	public void upvote(Usuario votante) {
+		if (!this.getVotantes().contains(votante)) {
+			upvotes++;
+			this.getVotantes().add(votante);
+		}
 	}
 	
 	/**
-	 * Este método avalia negativamente algum {@link Comentario}.
+	 * Este método avalia negativamente algum {@link Comentario}. Um {@link Usuario} só pode votar uma vez
+	 *  
+	 * @param votante
 	 */
-	public void downvote() {
-		downvotes++;
+	public void downvote(Usuario votante) {
+		if (!this.getVotantes().contains(votante)) {
+			downvotes++;
+			this.getVotantes().add(votante);
+		}
 	}
 	
-	/**
-     * Este método adiciona um novo {@link Comentario} no {@code Comentario}.
-     * 
-     * @param texto
-     * @param usuario
-     * @return referência para o {@code Comentario} adicionado
-     */
+	@Override
 	public Comentario comentar(String texto, Usuario usuario) {
 		Comentario comentario = new Comentario(texto, usuario);
         this.comentarios.add(comentario);
         return comentario;
+	}
+
+	/**
+	 * Compara dois comentarios a partir do saldo de <em>upvotes</em> menos <em>downvotes</em>
+	 */
+	@Override
+	public int compareTo(Comentario o) {
+		int esteSaldoDeVotos = this.getUpvotes() - this.getDownvotes();
+		int outroSaldoDeVotos = o.getUpvotes() - o.getDownvotes();
+		return Integer.compare(esteSaldoDeVotos, outroSaldoDeVotos);
 	}
 	
 	@Override
