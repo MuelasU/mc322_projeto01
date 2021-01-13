@@ -5,10 +5,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
-import java.util.Scanner;
 
-import src.model.agenda.Agenda;
-import src.model.agenda.Aula;
 import src.model.agenda.Evento;
 import src.model.agenda.Monitoria;
 import src.model.agenda.StatusEvento;
@@ -16,39 +13,10 @@ import src.model.forum.Comentario;
 import src.model.forum.Discussao;
 import src.model.repositorio.Diretorio;
 import src.model.repositorio.Material;
+import src.view.Login;
 
 public class Main {
-    public static void main(String[] args) {
-		//#region Entrada de Dados
-		// Scanner scanner = new Scanner(System.in);
-		// System.out.println("Bem-vindo, Estudante!\nInscreva-se para participar\n");
-		// System.out.println("Insira seu nome:");
-		// String nome = scanner.nextLine();
-		// System.out.println("Insira sua cidade (de SP):");
-		// String cidade = scanner.nextLine();
-		// System.out.println("Qual seu nivel de escolaridade? (digite apenas o numero)");
-		// String pergunta = "";
-		// for (Escolaridade nivel : Escolaridade.values()) {
-			// pergunta += nivel.getDescricao() + " [" + nivel.getId() + "]\n";
-		// }
-		// System.out.print(pergunta);
-		// int escolaridadeId = scanner.nextInt();
-		// Escolaridade escolaridade = null;
-		// for (Escolaridade nivel : Escolaridade.values()) {
-			// if(nivel.getId() == escolaridadeId) {escolaridade = nivel;};
-		// }
-		// scanner.nextLine();
-		// Perfil perfil = new Perfil(nome, Estado.SAO_PAULO, cidade, escolaridade, new GregorianCalendar(2000,12,12));
-		// System.out.println("Insira seu email:");
-		// String email = scanner.nextLine();
-		// System.out.println("Insira sua senha:");
-		// String senha = scanner.nextLine();
-		// Estudante estudante = new Estudante(email, senha, perfil);
-
-		// System.out.println(estudante);
-		// scanner.close();
-		// #endregion
- 
+    public static void main(String[] args) {	
 		// #region Instanciacao de Usuarios
 		//Criacao de disciplinas de interesse p/ o instrutor
     	ArrayList<Disciplina> disciplinas_instrutor1 = new ArrayList<Disciplina>();
@@ -62,10 +30,14 @@ public class Main {
     	Perfil perfil_moderador1 = new Perfil("Joao", Estado.ACRE, "Rio Branco", Escolaridade.POS_DOUTORADO, new GregorianCalendar(2000, 4, 26));
         
         //Instanciacao dos usuarios na forma de suas subclasses
-    	Estudante estudante1 = new Estudante("luigi@gmail.com", "123", perfil_estudante1);
+		Estudante estudante1 = new Estudante("luigi@gmail.com", "123", perfil_estudante1);
+		usuarios.add(estudante1);
     	Estudante estudante2 = new Estudante("luiz@gmail.com", "123", perfil_estudante2);
+		usuarios.add(estudante2);
     	Instrutor instrutor1 = new Instrutor("muelas@gmail.com", "123", perfil_instrutor1, disciplinas_instrutor1);
+		usuarios.add(instrutor1);
     	Moderador moderador1 = new Moderador("joao@gmail.com", "123", perfil_moderador1);
+		usuarios.add(moderador1);
         /*System.out.println(estudante1);
     	System.out.println(estudante2);
     	System.out.println(instrutor1);
@@ -74,16 +46,18 @@ public class Main {
  
 		// #region Teste de Eventos
 		//As tres linhas abaixo correspondem a criacao de um tempo "Duration" padrao
-    	Instant start = Instant.parse("2020-01-01T10:00:00.00Z");
-    	Instant end = Instant.parse("2020-01-02T10:00:00.00Z");
+    	Instant start = Instant.parse("2020-01-20T10:00:00.00Z");
+    	Instant end = Instant.parse("2020-01-20T12:00:00.00Z");
 		Duration duracao_padrao = Duration.between(start, end);
 		
     	//Eventos, aulas e monitorias serao criadas atraves dos metodos dos usuarios
-    	Monitoria monitoria1 = estudante1.solicitarMonitoria(new GregorianCalendar(2020, 12, 14),"Monitoria de ingles", "Gostaria de...", Disciplina.INGLES); //teste do metodo solicitarMonitoria de Estudante
-    	monitoria1 = instrutor1.aceitarMonitoria(monitoria1, duracao_padrao, 20, "meet"); //teste do metodo aceitarMonitoria de Instrutor
+		Evento monitoria1 = estudante1.solicitarMonitoria(new GregorianCalendar(2020, 12, 14),"Monitoria de ingles", "Gostaria de...", Disciplina.INGLES); //teste do metodo solicitarMonitoria de Estudante
+		eventos.add(monitoria1);
+    	monitoria1 = instrutor1.aceitarMonitoria((Monitoria) monitoria1, duracao_padrao, 20, "meet"); //teste do metodo aceitarMonitoria de Instrutor
         //System.out.println(monitoria1);
 		
-    	Aula aula1 = instrutor1.criarAula("Aula de mateca", "aula ordinaria", Disciplina.MATEMATICA, new GregorianCalendar(2021, 01, 15), duracao_padrao, 50, "meet.com/...");
+		Evento aula1 = instrutor1.criarEvento("Aula de mateca", "aula ordinaria", Disciplina.MATEMATICA, new GregorianCalendar(2021, 01, 15), duracao_padrao, 50, "meet.com/...", true);
+		eventos.add(aula1);
     	// System.out.println(aula1);
     	estudante2.inscreverEvento(aula1);
     	//System.out.println(aula1);
@@ -91,7 +65,8 @@ public class Main {
     	//System.out.println(aula1);
         
     	//As 6 linhas abaixo servem tanto para testar o metodo criarAula de moderador quanto para ver se a capacidade nao e excedida
-        Aula aula2 = moderador1.criarAula("aula teste", "", Disciplina.BIOLOGIA, new GregorianCalendar(2021,01,4), duracao_padrao, 1, "", instrutor1);
+		Evento aula2 = moderador1.criarEvento("aula teste", "", Disciplina.BIOLOGIA, new GregorianCalendar(2021,01,4), duracao_padrao, 1, "", instrutor1, true);
+		eventos.add(aula2);
     	// System.out.println(aula2);
     	estudante1.inscreverEvento(aula2);
     	//System.out.println(aula2);
@@ -101,7 +76,8 @@ public class Main {
         //System.out.println(aula1); //teste do metodo cancelarEvento de moderador
 		
     	//As 5 linhas abaixo testam o metodo remover evento, inclusive com um estudante inscrito
-    	Monitoria monitoria2 = moderador1.criarMonitoria("a", "", Disciplina.GEOGRAFIA, new GregorianCalendar(2020,12,16), duracao_padrao, 10, "meet...", instrutor1);
+		Evento monitoria2 = moderador1.criarEvento("a", "", Disciplina.GEOGRAFIA, new GregorianCalendar(2020,12,16), duracao_padrao, 10, "meet...", instrutor1, false);
+		eventos.add(monitoria2);
     	//System.out.println(monitoria2); //teste de criarMonitoria do moderador
     	estudante1.inscreverEvento(monitoria2);
     	//System.out.println(monitoria2);
@@ -122,9 +98,10 @@ public class Main {
 		// System.out.println(instrutor1.getAvaliacao());
 
     	//As 4 linhas abaixo testam o metodo solicitar exercicios da classe monitoria
-		Monitoria monitoria3 = instrutor1.criarMonitoria("monitoria braba", "", Disciplina.QUIMICA, new GregorianCalendar(2020,12,20), duracao_padrao, 10, "meet.com/...");
+		Evento monitoria3 = instrutor1.criarEvento("monitoria braba", "", Disciplina.QUIMICA, new GregorianCalendar(2020,12,20), duracao_padrao, 10, "meet.com/...", false);
+		eventos.add(monitoria3);
     	estudante2.inscreverEvento(monitoria3);
-    	monitoria3.solicitarExercicios("1.1,1.2,1.3", estudante2);
+    	((Monitoria) monitoria3).solicitarExercicios("1.1,1.2,1.3", estudante2);
 		//System.out.println(monitoria3.getExerciciosSolicitados());
 		
 		//As 3 linhas abaixo testam um metodo de filtro da classe Agenda
@@ -194,5 +171,9 @@ public class Main {
     	discussao1.resolver(estudante1, comentario2);
     	//System.out.println(discussao1); //teste do metodo resolver da classe discussao
 		//#endregion
+	
+		//#region UI
+		Login login = new Login();
+		login.setVisible(true);
 	}
 }
