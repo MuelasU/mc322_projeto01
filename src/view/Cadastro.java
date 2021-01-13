@@ -7,6 +7,9 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import javax.swing.Box;
 import javax.swing.ButtonGroup;
@@ -21,32 +24,34 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import src.controller.Controller;
 import src.model.Escolaridade;
 import src.model.Estado;
+import src.model.Perfil;
 
 public class Cadastro extends JFrame {
 	
 	private static final long serialVersionUID = 1;
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField nomeTextField;
+	private JTextField emailTextField;
+	private JTextField nascimentoTextField;
 	private JLabel lblNewLabel_4;
 	private JLabel lblNewLabel_5;
 	private JLabel lblNewLabel_6;
 	private JButton btnNewButton;
 	private JPasswordField passwordField;
 	private JLabel lblNewLabel_1;
-	private JTextField textField_3;
-	private JComboBox<Estado> comboBox;
-	private JComboBox<Escolaridade> comboBox_1;
+	private JTextField cidadeTextField;
+	private JComboBox<Estado> estadoComboBox;
+	private JComboBox<Escolaridade> escolaridaddeComboBox;
 	private JLabel lblNewLabel_2;
 	private JLabel lblNewLabel_3;
 	private Component verticalStrut;
 	private Component verticalStrut_1;
-	private JRadioButton rdbtnNewRadioButton;
-	private JRadioButton rdbtnNewRadioButton_1;
-	private JRadioButton rdbtnNewRadioButton_2;
+	private JRadioButton estudanteRadioButton;
+	private JRadioButton instrutorRadioButton;
+	private JRadioButton moderadorRadioButton;
 	private JLabel lblNewLabel_7;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 
@@ -57,7 +62,7 @@ public class Cadastro extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Cadastro frame = new Cadastro();
+					Cadastro frame = new Cadastro(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -69,7 +74,7 @@ public class Cadastro extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Cadastro() {
+	public Cadastro(Login loginFrame) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 400);
 		contentPane = new JPanel();
@@ -97,14 +102,14 @@ public class Cadastro extends JFrame {
 		gbc_lblNewLabel.gridy = 2;
 		contentPane.add(lblNewLabel, gbc_lblNewLabel);
 		
-		textField = new JTextField();
+		nomeTextField = new JTextField();
 		GridBagConstraints gbc_textField = new GridBagConstraints();
 		gbc_textField.insets = new Insets(0, 0, 5, 0);
 		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField.gridx = 1;
 		gbc_textField.gridy = 2;
-		contentPane.add(textField, gbc_textField);
-		textField.setColumns(10);
+		contentPane.add(nomeTextField, gbc_textField);
+		nomeTextField.setColumns(10);
 		
 		lblNewLabel_6 = new JLabel("Email");
 		GridBagConstraints gbc_lblNewLabel_6 = new GridBagConstraints();
@@ -114,16 +119,16 @@ public class Cadastro extends JFrame {
 		gbc_lblNewLabel_6.gridy = 3;
 		contentPane.add(lblNewLabel_6, gbc_lblNewLabel_6);
 		
-		textField_1 = new JTextField();
+		emailTextField = new JTextField("");
 		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
 		gbc_textField_1.insets = new Insets(0, 0, 5, 0);
 		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_1.gridx = 1;
 		gbc_textField_1.gridy = 3;
-		contentPane.add(textField_1, gbc_textField_1);
-		textField_1.setColumns(10);
+		contentPane.add(emailTextField, gbc_textField_1);
+		emailTextField.setColumns(10);
 		
-		lblNewLabel_5 = new JLabel("Anivers\u00E1rio (dd/mm/aaaa)");
+		lblNewLabel_5 = new JLabel("Data de Nascimento (dd/mm/aaaa)");
 		GridBagConstraints gbc_lblNewLabel_5 = new GridBagConstraints();
 		gbc_lblNewLabel_5.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_5.anchor = GridBagConstraints.EAST;
@@ -131,14 +136,14 @@ public class Cadastro extends JFrame {
 		gbc_lblNewLabel_5.gridy = 4;
 		contentPane.add(lblNewLabel_5, gbc_lblNewLabel_5);
 		
-		textField_2 = new JTextField();
+		nascimentoTextField = new JTextField();
 		GridBagConstraints gbc_textField_2 = new GridBagConstraints();
 		gbc_textField_2.insets = new Insets(0, 0, 5, 0);
 		gbc_textField_2.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_2.gridx = 1;
 		gbc_textField_2.gridy = 4;
-		contentPane.add(textField_2, gbc_textField_2);
-		textField_2.setColumns(10);
+		contentPane.add(nascimentoTextField, gbc_textField_2);
+		nascimentoTextField.setColumns(10);
 		
 		lblNewLabel_4 = new JLabel("Senha");
 		GridBagConstraints gbc_lblNewLabel_4 = new GridBagConstraints();
@@ -148,7 +153,7 @@ public class Cadastro extends JFrame {
 		gbc_lblNewLabel_4.gridy = 5;
 		contentPane.add(lblNewLabel_4, gbc_lblNewLabel_4);
 		
-		passwordField = new JPasswordField();
+		passwordField = new JPasswordField("");
 		GridBagConstraints gbc_passwordField = new GridBagConstraints();
 		gbc_passwordField.insets = new Insets(0, 0, 5, 0);
 		gbc_passwordField.fill = GridBagConstraints.HORIZONTAL;
@@ -164,14 +169,14 @@ public class Cadastro extends JFrame {
 		gbc_lblNewLabel_1.gridy = 6;
 		contentPane.add(lblNewLabel_1, gbc_lblNewLabel_1);
 		
-		textField_3 = new JTextField();
+		cidadeTextField = new JTextField();
 		GridBagConstraints gbc_textField_3 = new GridBagConstraints();
 		gbc_textField_3.insets = new Insets(0, 0, 5, 0);
 		gbc_textField_3.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_3.gridx = 1;
 		gbc_textField_3.gridy = 6;
-		contentPane.add(textField_3, gbc_textField_3);
-		textField_3.setColumns(10);
+		contentPane.add(cidadeTextField, gbc_textField_3);
+		cidadeTextField.setColumns(10);
 		
 		lblNewLabel_2 = new JLabel("Estado");
 		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
@@ -181,14 +186,14 @@ public class Cadastro extends JFrame {
 		gbc_lblNewLabel_2.gridy = 7;
 		contentPane.add(lblNewLabel_2, gbc_lblNewLabel_2);
 		
-		comboBox = new JComboBox<Estado>();
-		comboBox.setModel(new DefaultComboBoxModel<Estado>(Estado.values()));
+		estadoComboBox = new JComboBox<Estado>();
+		estadoComboBox.setModel(new DefaultComboBoxModel<Estado>(Estado.values()));
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.insets = new Insets(0, 0, 5, 0);
 		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_comboBox.gridx = 1;
 		gbc_comboBox.gridy = 7;
-		contentPane.add(comboBox, gbc_comboBox);
+		contentPane.add(estadoComboBox, gbc_comboBox);
 		
 		lblNewLabel_3 = new JLabel("Escolaridade (completa)");
 		GridBagConstraints gbc_lblNewLabel_3 = new GridBagConstraints();
@@ -198,22 +203,23 @@ public class Cadastro extends JFrame {
 		gbc_lblNewLabel_3.gridy = 8;
 		contentPane.add(lblNewLabel_3, gbc_lblNewLabel_3);
 		
-		comboBox_1 = new JComboBox<Escolaridade>();
-		comboBox_1.setModel(new DefaultComboBoxModel<Escolaridade>(Escolaridade.values()));
+		escolaridaddeComboBox = new JComboBox<Escolaridade>();
+		escolaridaddeComboBox.setModel(new DefaultComboBoxModel<Escolaridade>(Escolaridade.values()));
 		GridBagConstraints gbc_comboBox_1 = new GridBagConstraints();
 		gbc_comboBox_1.insets = new Insets(0, 0, 5, 0);
 		gbc_comboBox_1.fill = GridBagConstraints.HORIZONTAL;
 		gbc_comboBox_1.gridx = 1;
 		gbc_comboBox_1.gridy = 8;
-		contentPane.add(comboBox_1, gbc_comboBox_1);
+		contentPane.add(escolaridaddeComboBox, gbc_comboBox_1);
 		
-		rdbtnNewRadioButton = new JRadioButton("Estudante");
-		buttonGroup.add(rdbtnNewRadioButton);
+		estudanteRadioButton = new JRadioButton("Estudante");
+		estudanteRadioButton.setSelected(true);
+		buttonGroup.add(estudanteRadioButton);
 		GridBagConstraints gbc_rdbtnNewRadioButton = new GridBagConstraints();
 		gbc_rdbtnNewRadioButton.insets = new Insets(0, 0, 5, 0);
 		gbc_rdbtnNewRadioButton.gridx = 1;
 		gbc_rdbtnNewRadioButton.gridy = 9;
-		contentPane.add(rdbtnNewRadioButton, gbc_rdbtnNewRadioButton);
+		contentPane.add(estudanteRadioButton, gbc_rdbtnNewRadioButton);
 		
 		lblNewLabel_7 = new JLabel("Tipo de usuario");
 		GridBagConstraints gbc_lblNewLabel_7 = new GridBagConstraints();
@@ -222,21 +228,21 @@ public class Cadastro extends JFrame {
 		gbc_lblNewLabel_7.gridy = 11;
 		contentPane.add(lblNewLabel_7, gbc_lblNewLabel_7);
 		
-		rdbtnNewRadioButton_1 = new JRadioButton("Instrutor");
-		buttonGroup.add(rdbtnNewRadioButton_1);
+		instrutorRadioButton = new JRadioButton("Instrutor");
+		buttonGroup.add(instrutorRadioButton);
 		GridBagConstraints gbc_rdbtnNewRadioButton_1 = new GridBagConstraints();
 		gbc_rdbtnNewRadioButton_1.insets = new Insets(0, 0, 5, 0);
 		gbc_rdbtnNewRadioButton_1.gridx = 1;
 		gbc_rdbtnNewRadioButton_1.gridy = 11;
-		contentPane.add(rdbtnNewRadioButton_1, gbc_rdbtnNewRadioButton_1);
+		contentPane.add(instrutorRadioButton, gbc_rdbtnNewRadioButton_1);
 		
-		rdbtnNewRadioButton_2 = new JRadioButton("Moderador");
-		buttonGroup.add(rdbtnNewRadioButton_2);
+		moderadorRadioButton = new JRadioButton("Moderador");
+		buttonGroup.add(moderadorRadioButton);
 		GridBagConstraints gbc_rdbtnNewRadioButton_2 = new GridBagConstraints();
 		gbc_rdbtnNewRadioButton_2.insets = new Insets(0, 0, 5, 0);
 		gbc_rdbtnNewRadioButton_2.gridx = 1;
 		gbc_rdbtnNewRadioButton_2.gridy = 12;
-		contentPane.add(rdbtnNewRadioButton_2, gbc_rdbtnNewRadioButton_2);
+		contentPane.add(moderadorRadioButton, gbc_rdbtnNewRadioButton_2);
 		
 		verticalStrut = Box.createVerticalStrut(20);
 		GridBagConstraints gbc_verticalStrut = new GridBagConstraints();
@@ -245,11 +251,34 @@ public class Cadastro extends JFrame {
 		gbc_verticalStrut.gridy = 13;
 		contentPane.add(verticalStrut, gbc_verticalStrut);
 		
-		btnNewButton = new JButton("Pr\u00F3ximo");
+		btnNewButton = new JButton("Cadastrar");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Login newLogin = new Login();
-				newLogin.setVisible(true);
+				try {
+					SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
+					Calendar nascimento = Calendar.getInstance();
+					nascimento.setTime(fmt.parse(nascimentoTextField.getText()));
+					String nome = nomeTextField.getText();
+					String email = emailTextField.getText();
+					String senha = new String(passwordField.getPassword());
+					Estado estado = (Estado) estadoComboBox.getSelectedItem();
+					String cidade = cidadeTextField.getText();
+					Escolaridade escolaridade = (Escolaridade) escolaridaddeComboBox.getSelectedItem();
+					Perfil perfil = new Perfil(nome, estado, cidade, escolaridade, nascimento);
+					int tipoUsuario = estudanteRadioButton.isSelected() ? 1
+									: instrutorRadioButton.isSelected() ? 2
+									: 3;
+					boolean cadastrou = Controller.cadastrar(email, senha, perfil, tipoUsuario);
+					System.out.println(Controller.getMensagem());
+					if (cadastrou) {
+						loginFrame.setVisible(true);
+						Cadastro.this.dispose();
+					}
+				} catch (ParseException e) {
+					Controller.setMensagem("Data de Nascimento invalida");
+					System.out.println(Controller.getMensagem());
+				}
+				
 			}
 		});
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();

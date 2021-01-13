@@ -17,11 +17,13 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import src.controller.Controller;
+
 public class Login extends JFrame {
 	
 	private static final long serialVersionUID = 2;
 	private JPanel contentPane;
-	private JTextField textField;
+	private JTextField emailTextField;
 	private JPasswordField passwordField;
 
 	/**
@@ -71,14 +73,14 @@ public class Login extends JFrame {
 		gbc_lblNewLabel.gridy = 1;
 		contentPane.add(lblNewLabel, gbc_lblNewLabel);
 		
-		textField = new JTextField();
+		emailTextField = new JTextField("");
 		GridBagConstraints gbc_textField = new GridBagConstraints();
 		gbc_textField.insets = new Insets(0, 0, 5, 0);
 		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField.gridx = 1;
 		gbc_textField.gridy = 1;
-		contentPane.add(textField, gbc_textField);
-		textField.setColumns(10);
+		contentPane.add(emailTextField, gbc_textField);
+		emailTextField.setColumns(10);
 		
 		JLabel lblNewLabel_1 = new JLabel("Senha");
 		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
@@ -88,7 +90,7 @@ public class Login extends JFrame {
 		gbc_lblNewLabel_1.gridy = 2;
 		contentPane.add(lblNewLabel_1, gbc_lblNewLabel_1);
 		
-		passwordField = new JPasswordField();
+		passwordField = new JPasswordField("");
 		GridBagConstraints gbc_passwordField = new GridBagConstraints();
 		gbc_passwordField.insets = new Insets(0, 0, 5, 0);
 		gbc_passwordField.fill = GridBagConstraints.HORIZONTAL;
@@ -104,6 +106,17 @@ public class Login extends JFrame {
 		contentPane.add(verticalStrut_1, gbc_verticalStrut_1);
 		
 		JButton btnNewButton = new JButton("Entrar");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				boolean verified = Controller.login(emailTextField.getText(), new String(passwordField.getPassword()));
+				System.out.println(Controller.getMensagem());
+				if (verified) {
+					Principal principal = new Principal();
+					principal.setVisible(true);
+					Login.this.setVisible(false);
+				}
+			}
+		});
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.insets = new Insets(0, 0, 5, 0);
 		gbc_btnNewButton.gridx = 1;
@@ -113,8 +126,9 @@ public class Login extends JFrame {
 		JButton btnNewButton_1 = new JButton("Cadastre-se");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Cadastro newCadastro = new Cadastro();
+				Cadastro newCadastro = new Cadastro(Login.this);
 				newCadastro.setVisible(true);
+				Login.this.setVisible(false);
 			}
 		});
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();

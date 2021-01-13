@@ -1,4 +1,4 @@
-package src.model;
+package src.controller;
 
 import java.io.File;
 import java.time.Duration;
@@ -6,6 +6,15 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
+import src.model.Disciplina;
+import src.model.Escolaridade;
+import src.model.Estado;
+import src.model.Estudante;
+import src.model.Instrutor;
+import src.model.Moderador;
+import src.model.Nota;
+import src.model.Perfil;
+import src.model.Usuario;
 import src.model.agenda.Evento;
 import src.model.agenda.Monitoria;
 import src.model.agenda.StatusEvento;
@@ -16,7 +25,10 @@ import src.model.repositorio.Material;
 import src.view.Login;
 
 public class Main {
-    public static void main(String[] args) {	
+    public static void main(String[] args) {
+		ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
+		ArrayList<Evento> eventos = new ArrayList<Evento>();
+
 		// #region Instanciacao de Usuarios
 		//Criacao de disciplinas de interesse p/ o instrutor
     	ArrayList<Disciplina> disciplinas_instrutor1 = new ArrayList<Disciplina>();
@@ -34,8 +46,10 @@ public class Main {
 		usuarios.add(estudante1);
     	Estudante estudante2 = new Estudante("luiz@gmail.com", "123", perfil_estudante2);
 		usuarios.add(estudante2);
+
     	Instrutor instrutor1 = new Instrutor("muelas@gmail.com", "123", perfil_instrutor1, disciplinas_instrutor1);
 		usuarios.add(instrutor1);
+		
     	Moderador moderador1 = new Moderador("joao@gmail.com", "123", perfil_moderador1);
 		usuarios.add(moderador1);
         /*System.out.println(estudante1);
@@ -58,7 +72,7 @@ public class Main {
 		
 		Evento aula1 = instrutor1.criarEvento("Aula de mateca", "aula ordinaria", Disciplina.MATEMATICA, new GregorianCalendar(2021, 01, 15), duracao_padrao, 50, "meet.com/...", true);
 		eventos.add(aula1);
-    	// System.out.println(aula1);
+		// System.out.println(aula1);
     	estudante2.inscreverEvento(aula1);
     	//System.out.println(aula1);
     	estudante2.desinscreverEvento(aula1);
@@ -78,7 +92,7 @@ public class Main {
     	//As 5 linhas abaixo testam o metodo remover evento, inclusive com um estudante inscrito
 		Evento monitoria2 = moderador1.criarEvento("a", "", Disciplina.GEOGRAFIA, new GregorianCalendar(2020,12,16), duracao_padrao, 10, "meet...", instrutor1, false);
 		eventos.add(monitoria2);
-    	//System.out.println(monitoria2); //teste de criarMonitoria do moderador
+		//System.out.println(monitoria2); //teste de criarMonitoria do moderador
     	estudante1.inscreverEvento(monitoria2);
     	//System.out.println(monitoria2);
     	monitoria2.removeEvento(instrutor1);
@@ -100,7 +114,7 @@ public class Main {
     	//As 4 linhas abaixo testam o metodo solicitar exercicios da classe monitoria
 		Evento monitoria3 = instrutor1.criarEvento("monitoria braba", "", Disciplina.QUIMICA, new GregorianCalendar(2020,12,20), duracao_padrao, 10, "meet.com/...", false);
 		eventos.add(monitoria3);
-    	estudante2.inscreverEvento(monitoria3);
+		estudante2.inscreverEvento(monitoria3);
     	((Monitoria) monitoria3).solicitarExercicios("1.1,1.2,1.3", estudante2);
 		//System.out.println(monitoria3.getExerciciosSolicitados());
 		
@@ -173,6 +187,9 @@ public class Main {
 		//#endregion
 	
 		//#region UI
+		Controller.setEventos(eventos);
+		Controller.setUsuarios(usuarios);
+
 		Login login = new Login();
 		login.setVisible(true);
 	}
