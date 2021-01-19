@@ -60,6 +60,7 @@ public abstract class Evento {
     	this.descricao = descricao;
     	this.disciplina = disciplina;
 		this.data = data;
+		capacidade = 1;
 		confirmado = false;
 		status = StatusEvento.ACONTECERA;
 		participantes = new ArrayList<Estudante>();

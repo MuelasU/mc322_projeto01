@@ -111,7 +111,9 @@ public class Login extends JFrame {
 				boolean verified = Controller.login(emailTextField.getText(), new String(passwordField.getPassword()));
 				System.out.println(Controller.getMensagem());
 				if (verified) {
-					Principal principal = new Principal();
+					emailTextField.setText("");
+					passwordField.setText("");
+					Principal principal = new Principal(Login.this);
 					principal.setVisible(true);
 					Login.this.setVisible(false);
 				}

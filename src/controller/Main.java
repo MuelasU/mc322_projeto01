@@ -65,7 +65,7 @@ public class Main {
 		Duration duracao_padrao = Duration.between(start, end);
 		
     	//Eventos, aulas e monitorias serao criadas atraves dos metodos dos usuarios
-		Evento monitoria1 = estudante1.solicitarMonitoria(new GregorianCalendar(2020, 12, 14),"Monitoria de ingles", "Gostaria de...", Disciplina.INGLES); //teste do metodo solicitarMonitoria de Estudante
+		Evento monitoria1 = estudante1.solicitarMonitoria(new GregorianCalendar(2021, 2, 14),"Monitoria de ingles", "Gostaria de...", Disciplina.INGLES); //teste do metodo solicitarMonitoria de Estudante
 		eventos.add(monitoria1);
     	monitoria1 = instrutor1.aceitarMonitoria((Monitoria) monitoria1, duracao_padrao, 20, "meet"); //teste do metodo aceitarMonitoria de Instrutor
         //System.out.println(monitoria1);
@@ -90,7 +90,7 @@ public class Main {
         //System.out.println(aula1); //teste do metodo cancelarEvento de moderador
 		
     	//As 5 linhas abaixo testam o metodo remover evento, inclusive com um estudante inscrito
-		Evento monitoria2 = moderador1.criarEvento("a", "", Disciplina.GEOGRAFIA, new GregorianCalendar(2020,12,16), duracao_padrao, 10, "meet...", instrutor1, false);
+		Evento monitoria2 = moderador1.criarEvento("a", "", Disciplina.GEOGRAFIA, new GregorianCalendar(2021, 2, 16), duracao_padrao, 10, "meet...", instrutor1, false);
 		eventos.add(monitoria2);
 		//System.out.println(monitoria2); //teste de criarMonitoria do moderador
     	estudante1.inscreverEvento(monitoria2);
@@ -187,6 +187,7 @@ public class Main {
 		//#endregion
 	
 		//#region UI
+		System.out.println(estudante1);
 		Controller.setEventos(eventos);
 		Controller.setUsuarios(usuarios);
 

@@ -21,7 +21,7 @@ public class InfoUsuario extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			InfoUsuario dialog = new InfoUsuario();
+			InfoUsuario dialog = new InfoUsuario(null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -32,33 +32,39 @@ public class InfoUsuario extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public InfoUsuario() {
+	public InfoUsuario(Principal principal) {
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setLayout(new FlowLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		{
-			JLabel lblNewLabel = new JLabel("New label");
-			contentPanel.add(lblNewLabel);
-		}
-		{
-			JPanel buttonPane = new JPanel();
-			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			getContentPane().add(buttonPane, BorderLayout.SOUTH);
-			{
-				JButton okButton = new JButton("OK");
-				okButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {
-						Principal newPrincipal = new Principal();
-						newPrincipal.setVisible(true);
-					}
-				});
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
+		
+		JLabel lblNewLabel = new JLabel("hi");
+		contentPanel.add(lblNewLabel);
+
+		JLabel l = new JLabel("ho");
+		contentPanel.add(l);
+
+		JLabel f = new JLabel("y");
+		contentPanel.add(f);
+
+		JLabel h = new JLabel("h");
+		contentPanel.add(h);
+		
+		JPanel buttonPane = new JPanel();
+		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		getContentPane().add(buttonPane, BorderLayout.SOUTH);
+		
+		JButton okButton = new JButton("Voltar");
+		okButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				principal.setVisible(true);
+				InfoUsuario.this.dispose();
 			}
-		}
+		});
+		buttonPane.add(okButton);
+		getRootPane().setDefaultButton(okButton);
+		
 	}
 
 }

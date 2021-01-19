@@ -36,6 +36,9 @@ public class Moderador extends Usuario {
      * @return referência para a {@code Aula} instanciada. {@code null} caso a {@code Aula} seja impossível de ser realizada.
      */
     public Evento criarEvento(String nome, String descricao, Disciplina disciplina, Calendar data, Duration duracao, int capacidade, String salaDeVideo, Instrutor instrutor, boolean ehAula) {
+        // SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
+        // System.out.println(fmt.format(data.getTime()));
+        // System.out.println(fmt.format(Calendar.getInstance().getTime()));
         boolean dataEstaNoFuturo = data.after(Calendar.getInstance());
         if (dataEstaNoFuturo) {
             return dataEstaNoFuturo ? new Aula(nome, descricao, disciplina, data, duracao, capacidade, salaDeVideo, instrutor)
