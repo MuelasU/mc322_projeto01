@@ -1,27 +1,29 @@
 package src.view;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 
+import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import src.controller.Controller;
 import src.model.Usuario;
 
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import javax.swing.JTextField;
-import java.awt.Insets;
-import java.awt.Component;
-import javax.swing.Box;
-
+/**
+ * Tela para mostrar os dados da conta do {@link Usuario}
+ */
 public class InfoUsuario extends JDialog {
 
 	private static final long serialVersionUID = 6;
@@ -31,19 +33,6 @@ public class InfoUsuario extends JDialog {
 	private JTextField textField_2;
 	private JTextField textField_3;
 	private JTextField textField_4;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			InfoUsuario dialog = new InfoUsuario(null);
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 
 	/**
 	 * Create the dialog.

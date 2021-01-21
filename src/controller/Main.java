@@ -64,11 +64,11 @@ public class Main {
 		Duration duracao_padrao = Duration.between(start, end);
 		
     	//Eventos, aulas e monitorias serao criadas atraves dos metodos dos usuarios
-		Evento monitoria1 = estudante1.solicitarMonitoria(new GregorianCalendar(2021, 2, 14),"Monitoria de ingles", "Gostaria de...", Disciplina.INGLES); //teste do metodo solicitarMonitoria de Estudante
-    	monitoria1 = instrutor1.aceitarMonitoria((Monitoria) monitoria1, duracao_padrao, 20, "meet"); //teste do metodo aceitarMonitoria de Instrutor
+		Evento monitoria1 = estudante1.solicitarMonitoria(new GregorianCalendar(2021, 2, 14),"Monitoria de ingles", "Gostaria de revisar verbo to be", Disciplina.INGLES); //teste do metodo solicitarMonitoria de Estudante
+    	monitoria1 = instrutor1.aceitarMonitoria((Monitoria) monitoria1, duracao_padrao, 20, "meet.com/..."); //teste do metodo aceitarMonitoria de Instrutor
         //System.out.println(monitoria1);
 		
-		Evento aula1 = instrutor1.criarEvento("Aula de mateca", "aula ordinaria", Disciplina.MATEMATICA, new GregorianCalendar(2021, 01, 15), duracao_padrao, 50, "meet.com/...", null, true);
+		Evento aula1 = instrutor1.criarEvento("Aula de matematica", "Aula de trigonometria focada no enem", Disciplina.MATEMATICA, new GregorianCalendar(2021, 01, 15), duracao_padrao, 50, "meet.com/...", null, true);
 		// System.out.println(aula1);
     	estudante2.inscreverEvento(aula1);
     	//System.out.println(aula1);
@@ -76,7 +76,7 @@ public class Main {
     	//System.out.println(aula1);
         
     	//As 6 linhas abaixo servem tanto para testar o metodo criarAula de moderador quanto para ver se a capacidade nao e excedida
-		Evento aula2 = moderador1.criarEvento("aula teste", "", Disciplina.BIOLOGIA, new GregorianCalendar(2021,01,4), duracao_padrao, 1, "", instrutor1, true);
+		Evento aula2 = moderador1.criarEvento("Aula plataforma", "Ensinamento de conceitos basicos sobre a plataforma", Disciplina.ARTES, new GregorianCalendar(2021,01,4), duracao_padrao, 1, "meet.com/...", instrutor1, true);
     	// System.out.println(aula2);
     	estudante1.inscreverEvento(aula2);
     	//System.out.println(aula2);
@@ -86,7 +86,7 @@ public class Main {
         //System.out.println(aula1); //teste do metodo cancelarEvento de moderador
 		
     	//As 5 linhas abaixo testam o metodo remover evento, inclusive com um estudante inscrito
-		Evento monitoria2 = moderador1.criarEvento("a", "", Disciplina.GEOGRAFIA, new GregorianCalendar(2021, 2, 16), duracao_padrao, 10, "meet...", instrutor1, false);
+		Evento monitoria2 = moderador1.criarEvento("Aula revisao Geo", "Revisao de tipos de rochas", Disciplina.GEOGRAFIA, new GregorianCalendar(2021, 2, 16), duracao_padrao, 10, "meet.com/...", instrutor1, false);
 		//System.out.println(monitoria2); //teste de criarMonitoria do moderador
     	estudante1.inscreverEvento(monitoria2);
     	//System.out.println(monitoria2);
@@ -107,7 +107,7 @@ public class Main {
 		// System.out.println(instrutor1.getAvaliacao());
 
     	//As 4 linhas abaixo testam o metodo solicitar exercicios da classe monitoria
-		Evento monitoria3 = instrutor1.criarEvento("monitoria braba", "", Disciplina.QUIMICA, new GregorianCalendar(2021,01,30), duracao_padrao, 10, "meet.com/...", null, false);
+		Evento monitoria3 = instrutor1.criarEvento("Monitoria pra enem quimica", "Monitoria de duvidas enem", Disciplina.QUIMICA, new GregorianCalendar(2021,01,30), duracao_padrao, 10, "meet.com/...", null, false);
 		estudante2.inscreverEvento(monitoria3);
     	((Monitoria) monitoria3).solicitarExercicios("1.1,1.2,1.3", estudante2);
 		//System.out.println(monitoria3.getExerciciosSolicitados());

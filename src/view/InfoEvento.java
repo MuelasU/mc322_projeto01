@@ -15,6 +15,7 @@ import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
@@ -25,6 +26,9 @@ import src.model.Instrutor;
 import src.model.agenda.Evento;
 import src.model.agenda.Monitoria;
 
+/**
+ * Tela para mostrar as informações do {@link Evento} e as ações possíveis relacionadas a ele.
+ */
 public class InfoEvento extends JDialog {
 
 	private static final long serialVersionUID = 8;
@@ -38,19 +42,6 @@ public class InfoEvento extends JDialog {
 	private JTextField textField_6;
 	private JTextField textField_7;
 	private JTextField textField_8;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			InfoEvento dialog = new InfoEvento(null, null);
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 
 	/**
 	 * Create the dialog.
@@ -254,8 +245,10 @@ public class InfoEvento extends JDialog {
 					boolean inscrito = evento.getParticipantes().contains(Controller.getUserSession());
 					if (inscrito) {
 						tglbtnNewToggleButton.setText(Controller.desinscreverEvento(evento) ? "Inscrever-se" : "Desinscrever-se");
+						JOptionPane.showMessageDialog(InfoEvento.this, Controller.getMensagem());
 					} else {
 						tglbtnNewToggleButton.setText(Controller.inscreverEvento(evento) ? "Desinscrever-se" : "Inscrever-se");
+						JOptionPane.showMessageDialog(InfoEvento.this, Controller.getMensagem());
 					}
 				}
 			});
@@ -275,6 +268,7 @@ public class InfoEvento extends JDialog {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						boolean aceitou = Controller.aceitarMonitoria((Monitoria) evento, capacidadeTextField.getText(), salaTextField.getText(), duracaoTextField.getText());
+						JOptionPane.showMessageDialog(InfoEvento.this, Controller.getMensagem());
 						if (aceitou) {
 							principal.atualizaListas();
 							principal.setVisible(true);
@@ -293,6 +287,7 @@ public class InfoEvento extends JDialog {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					Controller.mudaConfirmacaoEvento(evento);
+					JOptionPane.showMessageDialog(InfoEvento.this, Controller.getMensagem());
 					newTglButton.setText(evento.isConfirmado() ? "Cancelar evento" : "Confirmar evento");
 					textField_8.setText(evento.isConfirmado() + "");
 				}

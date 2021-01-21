@@ -1,7 +1,6 @@
 package src.view;
 
 import java.awt.Component;
-import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -18,6 +17,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
@@ -28,7 +28,11 @@ import src.controller.Controller;
 import src.model.Escolaridade;
 import src.model.Estado;
 import src.model.Perfil;
+import src.model.Usuario;
 
+/**
+ * Tela responsável por criar uma nova conta no sistema para um novo {@link Usuario}
+ */
 public class Cadastro extends JFrame {
 	
 	private static final long serialVersionUID = 1;
@@ -55,22 +59,6 @@ public class Cadastro extends JFrame {
 	private JLabel lblNewLabel_7;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private JButton btnNewButton_1;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Cadastro frame = new Cadastro(null);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
@@ -270,14 +258,14 @@ public class Cadastro extends JFrame {
 									: instrutorRadioButton.isSelected() ? 2
 									: 3;
 					boolean cadastrou = Controller.cadastrar(email, senha, perfil, tipoUsuario);
-					System.out.println(Controller.getMensagem());
+					JOptionPane.showMessageDialog(Cadastro.this, Controller.getMensagem());
 					if (cadastrou) {
 						loginFrame.setVisible(true);
 						Cadastro.this.dispose();
 					}
 				} catch (ParseException e) {
 					Controller.setMensagem("Data de Nascimento invalida");
-					System.out.println(Controller.getMensagem());
+					JOptionPane.showMessageDialog(Cadastro.this, Controller.getMensagem());
 				}
 				
 			}

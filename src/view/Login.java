@@ -1,7 +1,6 @@
 package src.view;
 
 import java.awt.Component;
-import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -12,6 +11,7 @@ import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -19,28 +19,15 @@ import javax.swing.border.EmptyBorder;
 
 import src.controller.Controller;
 
+/**
+ * Tela de Login. Recebe dados de login e é responsável por permitir ou negar a entrada do {@link Usuario} no aplicativo
+ */
 public class Login extends JFrame {
 	
 	private static final long serialVersionUID = 2;
 	private JPanel contentPane;
 	private JTextField emailTextField;
 	private JPasswordField passwordField;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Login frame = new Login();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
@@ -109,7 +96,7 @@ public class Login extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				boolean verified = Controller.login(emailTextField.getText(), new String(passwordField.getPassword()));
-				System.out.println(Controller.getMensagem());
+				JOptionPane.showMessageDialog(Login.this, Controller.getMensagem());
 				if (verified) {
 					emailTextField.setText("");
 					passwordField.setText("");

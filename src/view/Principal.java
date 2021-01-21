@@ -1,7 +1,6 @@
 package src.view;
 
 import java.awt.Component;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -18,6 +17,7 @@ import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListCellRenderer;
@@ -28,9 +28,13 @@ import src.controller.Controller;
 import src.model.Estudante;
 import src.model.Instrutor;
 import src.model.Moderador;
+import src.model.Usuario;
 import src.model.agenda.Agenda;
 import src.model.agenda.Evento;
 
+/**
+ * Tela do menu do aplicativo. Nela são mostrados todos eventos do aplicativo e aqueles ao qual o {@link Usuario} participará.
+ */
 public class Principal extends JFrame {
 	
 	private static final long serialVersionUID = 3;
@@ -53,22 +57,6 @@ public class Principal extends JFrame {
 
 	public boolean ehEstudante() {
 		return ehEstudante;
-	}
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Principal frame = new Principal(null);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
 	}
 
 	/**
@@ -104,6 +92,7 @@ public class Principal extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				login.setVisible(true);
 				if (Controller.logout()) Principal.this.dispose();
+				JOptionPane.showMessageDialog(Principal.this, Controller.getMensagem());
 			}
 		});
 		mnNewMenu.add(mntmNewMenuItem_7);

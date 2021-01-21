@@ -1,7 +1,6 @@
 package src.view;
 
 import java.awt.Component;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -17,6 +16,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSlider;
@@ -27,9 +27,13 @@ import javax.swing.plaf.basic.BasicComboBoxRenderer;
 import src.controller.Controller;
 import src.model.Disciplina;
 import src.model.Instrutor;
+import src.model.Moderador;
 import src.model.Usuario;
 import src.model.agenda.Evento;
 
+/**
+ * Tela reservada para {@link Instrutor} e {@link Moderador}. Possibilita a criação de um novo {@link Evento}
+ */
 public class CriarEvento extends JFrame {
 
 	private static final long serialVersionUID = 5;
@@ -40,22 +44,6 @@ public class CriarEvento extends JFrame {
 	private JTextField duracaoTextField;
 	private JTextField salaTextField;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					CriarEvento frame = new CriarEvento(null);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
@@ -280,6 +268,7 @@ public class CriarEvento extends JFrame {
 				Instrutor instrutor = (Instrutor) instrutoresComboBox.getSelectedItem();
 				
 				boolean criou = Controller.criarEvento(nome, descricao, disciplina, data, duracao, capacidade, sala, instrutor, ehAula);
+				JOptionPane.showMessageDialog(CriarEvento.this, Controller.getMensagem());
 				if (criou) {
 					principal.atualizaListas();
 					principal.setVisible(true);

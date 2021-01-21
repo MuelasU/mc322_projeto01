@@ -1,7 +1,6 @@
 package src.view;
 
 import java.awt.Component;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -15,13 +14,20 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import src.controller.Controller;
 import src.model.Disciplina;
+import src.model.Estudante;
+import src.model.agenda.Monitoria;
 
+/**
+ * Tela reservada para {@link Estudante}. Nela é possível solicitar uma {@link Monitoria}
+ * @see Estudante#solicitarMonitoria(java.util.Calendar, String, String, Disciplina)
+ */
 public class SolicitarMonitoria extends JFrame {
 
 	private static final long serialVersionUID = 4;
@@ -37,22 +43,6 @@ public class SolicitarMonitoria extends JFrame {
 	private JLabel lblNewLabel_4;
 	private Component verticalStrut_2;
 	private JButton btnNewButton_1;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					SolicitarMonitoria frame = new SolicitarMonitoria(null);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
@@ -174,6 +164,7 @@ public class SolicitarMonitoria extends JFrame {
 																 descricaoTextField.getText(),
 																 dataTextField.getText(),
 																 (Disciplina) comboBox.getSelectedItem());
+				JOptionPane.showMessageDialog(SolicitarMonitoria.this, Controller.getMensagem());
 				if (solicitou) {
 					principal.atualizaListas();
 					principal.setVisible(true);

@@ -16,13 +16,14 @@ import src.model.agenda.Agenda;
 import src.model.agenda.Evento;
 import src.model.agenda.Monitoria;
 
+/**
+ * Esta classe realiza todo o controle do aplicativo. Ela é responsável por fazer a comunicação entre a interface gráfica do aplicativo e o modelo criado para o sistema.
+ */
 public class Controller {
     private static ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
-    // private static ArrayList<Evento> eventos = new ArrayList<Evento>();
     private static Usuario userSession = null;
     private static String mensagem = "Nenhuma mensagem foi disparada";
-
-    private static SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
+    private static final SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
 
     /**
      * Realiza o cadastro de um {@link Usuario} no aplicativo
@@ -93,10 +94,12 @@ public class Controller {
      * @param descricao
      * @param dataString
      * @param disciplina
-     * @return
+     * @return {@code true} se a solicitação foi bem sucedida. {@code false} caso contrário
+     * @see Estudante#solicitarMonitoria(Calendar, String, String, Disciplina)
      */
     public static boolean solicitarMonitoria(String nome, String descricao, String dataString, Disciplina disciplina) {
         try {
+            if (nome.isEmpty()) nome = "-";
             Calendar data = Calendar.getInstance();
             data.setTime(fmt.parse(dataString));
             if (nome.equals("")) {
@@ -132,10 +135,12 @@ public class Controller {
      * @param salaDeVideo
      * @param instrutor
      * @param ehAula
-     * @return
+     * @return {@code true} se criou o {@link Evento}. {@code false} caso contrário
+     * @see Usuario#criarEvento(String, String, Disciplina, Calendar, Duration, int, String, Instrutor, boolean)
      */
     public static boolean criarEvento(String nome, String descricao, Disciplina disciplina, String dataString, String duracaoString, int capacidade, String salaDeVideo, Instrutor instrutor, boolean ehAula) {
         try {
+            if (nome.isEmpty()) nome = "-";
             Calendar data = Calendar.getInstance();
             data.setTime(fmt.parse(dataString));
             int horas = Integer.parseInt(duracaoString);
@@ -166,6 +171,12 @@ public class Controller {
         }
     }
 
+    /**
+     * 
+     * @param evento
+     * @return {@code true} se desinscreveu do {@link Evento}. {@code false} caso contrário
+     * @see Estudante#desinscreverEvento(Evento)
+     */
     public static boolean desinscreverEvento(Evento evento) {
         ((Estudante) userSession).desinscreverEvento(evento);
         mensagem = "Desinscricao realizada com sucesso";
@@ -173,6 +184,12 @@ public class Controller {
         return true;
     }
 
+    /**
+     * 
+     * @param evento
+     * @return {@code true} se inscreveu no {@link Evento}. {@code false} caso contrário
+     * @see Estudante#desinscreverEvento(Evento)
+     */
     public static boolean inscreverEvento(Evento evento) {
         boolean inscreveu = ((Estudante) userSession).inscreverEvento(evento);
         mensagem = inscreveu ? "Inscricao realizada com sucesso" : "Nao foi possivel realizar a inscricao";
@@ -180,6 +197,14 @@ public class Controller {
         return inscreveu;
     }
     
+    /**
+     * Confirma um {@link Evento} caso este não esteja confirmado e vice-versa.
+     * 
+     * @param evento
+     * @return {@code true} se modificou a confirmacao do {@code Evento}. {@code false} caso contrário
+     * @see Usuario#cancelarEvento(Evento)
+     * @see Usuario#confirmarEvento(Evento)
+     */
     public static boolean mudaConfirmacaoEvento(Evento evento) {
         boolean mudou = evento.isConfirmado() ? userSession.cancelarEvento(evento) : userSession.confirmarEvento(evento);
         mensagem = mudou ? "Evento " + (evento.isConfirmado() ? "confirmado" : "cancelado") + " com sucesso" : "Voce nao tem permissao para realizar esta operacao";
@@ -187,6 +212,15 @@ public class Controller {
         return mudou;
     }
     
+    /**
+     * 
+     * @param monitoria
+     * @param capacidadeString
+     * @param salaDeVideo
+     * @param duracaoString
+     * @return {@code true} se aceitou a {@link Monitoria}. {@code false} caso contrário
+     * @see Instrutor#aceitarMonitoria(Monitoria, Duration, int, String)
+     */
     public static boolean aceitarMonitoria(Monitoria monitoria, String capacidadeString, String salaDeVideo, String duracaoString) {
         try {
             int horas = Integer.parseInt(duracaoString);
@@ -212,6 +246,7 @@ public class Controller {
             return false;
         }
     }
+    
     //#region Getters e Setters
     public static ArrayList<Usuario> getUsuarios() {
         return usuarios;
