@@ -31,17 +31,16 @@ public class Moderador extends Usuario {
         return null;
     }
     
-    /**
-     * Este método permite ao {@link Moderador} cancelar um {@link Evento}.
-     * <p>
-     * Este método apenas altera o atributo {@code confirmado} do {@code Evento}.
-     * 
-     * @param evento
-     * @return referência para o <b>evento</b>
-     */
-    public Evento cancelarEvento(Evento evento) {
+    @Override
+    public boolean confirmarEvento(Evento evento) {
+        evento.setConfirmado(true);
+        return true;
+    }
+
+    @Override
+    public boolean cancelarEvento(Evento evento) {
         evento.setConfirmado(false);
-        return evento;
+        return true;
     }
 
     /**

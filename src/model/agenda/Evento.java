@@ -18,6 +18,9 @@ import src.model.repositorio.Material;
  * Possui um {@link Instrutor} responsável, {@link Estudante} participantes, data, duração e outras características comuns a um evento.
  */
 public abstract class Evento {
+	public static final int CAPACIDADE_MINIMA = 5;
+	public static final int CAPACIDADE_MAXIMA = 100;
+
     private static int numeroEventos = 0;
     private int id;
     private String nome;
@@ -42,7 +45,8 @@ public abstract class Evento {
     	this.disciplina = disciplina;
     	this.data = data;
     	this.duracao = duracao;
-    	this.capacidade = capacidade > 100 ? 100 : capacidade;
+    	this.capacidade = capacidade > CAPACIDADE_MAXIMA ? CAPACIDADE_MAXIMA : capacidade;
+    	this.capacidade = this.capacidade < CAPACIDADE_MINIMA ? CAPACIDADE_MINIMA : capacidade;
         this.salaDeVideo = salaDeVideo;
         this.instrutor = instrutor;
         instrutor.getAgenda().getEventos().add(this);
@@ -90,7 +94,8 @@ public abstract class Evento {
     }
     
 	public void setCapacidade(int capacidade) {
-		this.capacidade = capacidade > 100 ? 100 : capacidade;
+		this.capacidade = capacidade > CAPACIDADE_MAXIMA ? CAPACIDADE_MAXIMA : capacidade;
+    	this.capacidade = this.capacidade < CAPACIDADE_MINIMA ? CAPACIDADE_MINIMA : capacidade;
     }
     
 	public ArrayList<Estudante> getParticipantes() {

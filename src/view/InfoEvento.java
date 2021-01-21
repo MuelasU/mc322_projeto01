@@ -1,28 +1,29 @@
 package src.view;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.FlowLayout;
-
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
-import src.model.agenda.Evento;
-
-import java.awt.GridBagLayout;
-import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
-import javax.swing.JTextField;
+import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 
-import javax.swing.JToggleButton;
-import java.awt.Component;
 import javax.swing.Box;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.JToggleButton;
+import javax.swing.border.EmptyBorder;
+
+import src.controller.Controller;
+import src.model.Instrutor;
+import src.model.agenda.Evento;
+import src.model.agenda.Monitoria;
 
 public class InfoEvento extends JDialog {
 
@@ -31,9 +32,9 @@ public class InfoEvento extends JDialog {
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
+	private JTextField duracaoTextField;
+	private JTextField capacidadeTextField;
+	private JTextField salaTextField;
 	private JTextField textField_6;
 	private JTextField textField_7;
 	private JTextField textField_8;
@@ -140,18 +141,18 @@ public class InfoEvento extends JDialog {
 		Duration duracao = evento.getDuracao();
 		if (duracao != null) {
 			int horas = (int) duracao.toHours();
-			textField_3 = new JTextField(horas + "");
+			duracaoTextField = new JTextField(horas + "");
 		} else {
-			textField_3 = new JTextField();
+			duracaoTextField = new JTextField();
 		}
-		textField_3.setEditable(false);
+		duracaoTextField.setEditable(false);
 		GridBagConstraints gbc_textField_3 = new GridBagConstraints();
 		gbc_textField_3.insets = new Insets(0, 0, 5, 0);
 		gbc_textField_3.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_3.gridx = 1;
 		gbc_textField_3.gridy = 4;
-		contentPanel.add(textField_3, gbc_textField_3);
-		textField_3.setColumns(10);
+		contentPanel.add(duracaoTextField, gbc_textField_3);
+		duracaoTextField.setColumns(10);
 
 		JLabel lblNewLabel_4 = new JLabel("Capacidade");
 		GridBagConstraints gbc_lblNewLabel_4 = new GridBagConstraints();
@@ -161,15 +162,15 @@ public class InfoEvento extends JDialog {
 		gbc_lblNewLabel_4.gridy = 5;
 		contentPanel.add(lblNewLabel_4, gbc_lblNewLabel_4);
 
-		textField_4 = new JTextField(evento.getCapacidade() + "");
-		textField_4.setEditable(false);
+		capacidadeTextField = new JTextField(evento.getCapacidade() + "");
+		capacidadeTextField.setEditable(false);
 		GridBagConstraints gbc_textField_4 = new GridBagConstraints();
 		gbc_textField_4.insets = new Insets(0, 0, 5, 0);
 		gbc_textField_4.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_4.gridx = 1;
 		gbc_textField_4.gridy = 5;
-		contentPanel.add(textField_4, gbc_textField_4);
-		textField_4.setColumns(10);
+		contentPanel.add(capacidadeTextField, gbc_textField_4);
+		capacidadeTextField.setColumns(10);
 
 		JLabel lblNewLabel_5 = new JLabel("Link da Sala");
 		GridBagConstraints gbc_lblNewLabel_5 = new GridBagConstraints();
@@ -179,15 +180,15 @@ public class InfoEvento extends JDialog {
 		gbc_lblNewLabel_5.gridy = 6;
 		contentPanel.add(lblNewLabel_5, gbc_lblNewLabel_5);
 
-		textField_5 = new JTextField(evento.getSalaDeVideo());
-		textField_5.setEditable(false);
+		salaTextField = new JTextField(evento.getSalaDeVideo());
+		salaTextField.setEditable(false);
 		GridBagConstraints gbc_textField_5 = new GridBagConstraints();
 		gbc_textField_5.insets = new Insets(0, 0, 5, 0);
 		gbc_textField_5.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_5.gridx = 1;
 		gbc_textField_5.gridy = 6;
-		contentPanel.add(textField_5, gbc_textField_5);
-		textField_5.setColumns(10);
+		contentPanel.add(salaTextField, gbc_textField_5);
+		salaTextField.setColumns(10);
 
 		JLabel lblNewLabel_6 = new JLabel("Disciplina");
 		GridBagConstraints gbc_lblNewLabel_6 = new GridBagConstraints();
@@ -243,19 +244,66 @@ public class InfoEvento extends JDialog {
 		contentPanel.add(textField_8, gbc_textField_8);
 		textField_8.setColumns(10);
 
-		JToggleButton tglbtnNewToggleButton = new JToggleButton("Inscrito");
-		GridBagConstraints gbc_tglbtnNewToggleButton = new GridBagConstraints();
-		gbc_tglbtnNewToggleButton.insets = new Insets(0, 0, 5, 0);
-		gbc_tglbtnNewToggleButton.gridx = 1;
-		gbc_tglbtnNewToggleButton.gridy = 10;
-		contentPanel.add(tglbtnNewToggleButton, gbc_tglbtnNewToggleButton);
+		//#region Botoes de Operacoes
+		if (principal.ehEstudante()) {
+			boolean checagem = evento.getParticipantes().contains(Controller.getUserSession());
+			JToggleButton tglbtnNewToggleButton = new JToggleButton(checagem ? "Desinscrever-se" : "Inscrever-se");
+			tglbtnNewToggleButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					boolean inscrito = evento.getParticipantes().contains(Controller.getUserSession());
+					if (inscrito) {
+						tglbtnNewToggleButton.setText(Controller.desinscreverEvento(evento) ? "Inscrever-se" : "Desinscrever-se");
+					} else {
+						tglbtnNewToggleButton.setText(Controller.inscreverEvento(evento) ? "Desinscrever-se" : "Inscrever-se");
+					}
+				}
+			});
+			GridBagConstraints gbc_tglbtnNewToggleButton = new GridBagConstraints();
+			gbc_tglbtnNewToggleButton.insets = new Insets(0, 0, 5, 0);
+			gbc_tglbtnNewToggleButton.gridx = 1;
+			gbc_tglbtnNewToggleButton.gridy = 10;
+			contentPanel.add(tglbtnNewToggleButton, gbc_tglbtnNewToggleButton);
+		} else {
+			if (Controller.getUserSession() instanceof Instrutor && evento instanceof Monitoria && Monitoria.getSolicitacoes().contains(evento)) {
+				capacidadeTextField.setEditable(true);
+				salaTextField.setEditable(true);
+				duracaoTextField.setEditable(true);
 
-		JToggleButton tglbtnNewToggleButton_1 = new JToggleButton("Cancelar evento");
-		GridBagConstraints gbc_tglbtnNewToggleButton_1 = new GridBagConstraints();
-		gbc_tglbtnNewToggleButton_1.insets = new Insets(0, 0, 5, 0);
-		gbc_tglbtnNewToggleButton_1.gridx = 1;
-		gbc_tglbtnNewToggleButton_1.gridy = 11;
-		contentPanel.add(tglbtnNewToggleButton_1, gbc_tglbtnNewToggleButton_1);
+				JButton aceitarButton = new JButton("Aceitar monitoria");
+				aceitarButton.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						boolean aceitou = Controller.aceitarMonitoria((Monitoria) evento, capacidadeTextField.getText(), salaTextField.getText(), duracaoTextField.getText());
+						if (aceitou) {
+							principal.atualizaListas();
+							principal.setVisible(true);
+							InfoEvento.this.dispose();
+						}
+					}
+				});
+				GridBagConstraints gbc_tglbtnNewToggleButton = new GridBagConstraints();
+				gbc_tglbtnNewToggleButton.insets = new Insets(0, 0, 5, 0);
+				gbc_tglbtnNewToggleButton.gridx = 1;
+				gbc_tglbtnNewToggleButton.gridy = 10;
+				contentPanel.add(aceitarButton, gbc_tglbtnNewToggleButton);
+			}
+			JToggleButton newTglButton = new JToggleButton(evento.isConfirmado() ? "Cancelar evento" : "Confirmar evento");
+			newTglButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					Controller.mudaConfirmacaoEvento(evento);
+					newTglButton.setText(evento.isConfirmado() ? "Cancelar evento" : "Confirmar evento");
+					textField_8.setText(evento.isConfirmado() + "");
+				}
+			});
+			GridBagConstraints gbc_tglbtnNewToggleButton_1 = new GridBagConstraints();
+			gbc_tglbtnNewToggleButton_1.insets = new Insets(0, 0, 5, 0);
+			gbc_tglbtnNewToggleButton_1.gridx = 1;
+			gbc_tglbtnNewToggleButton_1.gridy = 11;
+			contentPanel.add(newTglButton, gbc_tglbtnNewToggleButton_1);
+		}
+		//#endregion
 
 		JPanel buttonPane = new JPanel();
 		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -273,33 +321,5 @@ public class InfoEvento extends JDialog {
 		buttonPane.add(okButton);
 		getRootPane().setDefaultButton(okButton);
 		
-	}
-	
-	public void setNome(String nome) {
-		this.textField.setText(nome);
-	}
-	public void setDescricao(String descricao) {
-		this.textField_1.setText(descricao);
-	}
-	public void setData(String data) {
-		this.textField_2.setText(data);
-	}
-	public void setDuracao(String duracao) {
-		this.textField_3.setText(duracao);
-	}
-	public void setCapacidade(String capacidade) {
-		this.textField_4.setText(capacidade);
-	}
-	public void setLink(String link) {
-		this.textField_5.setText(link);
-	}
-	public void setDisciplina(String disciplina) {
-		this.textField_6.setText(disciplina);
-	}
-	public void setResponsavel(String nome) {
-		this.textField_7.setText(nome);
-	}
-	public void setStatus(String status) {
-		this.textField_8.setText(status);
 	}
 }

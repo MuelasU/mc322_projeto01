@@ -100,6 +100,26 @@ public abstract class Usuario {
      */
     public abstract Evento criarEvento(String nome, String descricao, Disciplina disciplina, Calendar data, Duration duracao, int capacidade, String salaDeVideo, Instrutor instrutor, boolean ehAula);
 
+    /**
+     * Este método permite ao {@link Usuario} cancelar um {@link Evento}.
+     * <p>
+     * Este método apenas altera o atributo {@code confirmado} do {@code Evento}.
+     * 
+     * @param evento
+     * @return {@code true} caso o {@code Usuario} possa cancelar o {@code Evento}. {@code false} caso contrario 
+     */
+    public abstract boolean cancelarEvento(Evento evento);
+    
+    /**
+     * Este método permite ao {@link Usuario} confirmar um {@link Evento}.
+     * <p>
+     * Este método apenas altera o atributo {@code confirmado} do {@code Evento}.
+     * 
+     * @param evento
+     * @return {@code true} caso o {@code Usuario} possa confirmar o {@code Evento}. {@code false} caso contrario 
+     */
+    public abstract boolean confirmarEvento(Evento evento);
+
     @Override
     public String toString() {
         String retorno = "Usuario";

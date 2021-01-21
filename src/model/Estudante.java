@@ -96,6 +96,16 @@ public class Estudante extends Usuario {
     }
 
     @Override
+    public boolean confirmarEvento(Evento evento) {
+        return false;
+    }
+    
+    @Override
+    public boolean cancelarEvento(Evento evento) {
+        return false;
+    }
+
+    @Override
     public String toString() {
         return "Estudante\n"+super.toString();
     }

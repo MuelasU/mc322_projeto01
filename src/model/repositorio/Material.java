@@ -116,9 +116,9 @@ public class Material implements Comentavel{
      * @return {@code true} se moveu. {@code false} caso contrário, quando o <b>solicitante</b> não tem permissão.
      */
     public boolean mover(Diretorio destino, Diretorio root, Usuario solicitante) {
-        boolean solicitanteEhModerador = solicitante instanceof Moderador;
+        boolean solicitanteehModerador = solicitante instanceof Moderador;
         boolean solicitanteEhDono = solicitante == this.getDono();
-        if (solicitanteEhDono || solicitanteEhModerador) {
+        if (solicitanteEhDono || solicitanteehModerador) {
             //remove o material do diretorio atual
             Diretorio diretorioPai = Diretorio.getDiretorioPorLocal(root, this.getLocal());
             diretorioPai.getMateriais().remove(this);

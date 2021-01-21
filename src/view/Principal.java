@@ -3,6 +3,9 @@ package src.view;
 import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -21,7 +24,6 @@ import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 
-import net.miginfocom.swing.MigLayout;
 import src.controller.Controller;
 import src.model.Estudante;
 import src.model.Instrutor;
@@ -41,15 +43,15 @@ public class Principal extends JFrame {
 	JList<Evento> list;
 	JList<Evento> list_1;
 
-	public boolean EhModerador() {
+	public boolean ehModerador() {
 		return ehModerador;
 	}
 
-	public boolean EhInstrutor() {
+	public boolean ehInstrutor() {
 		return ehInstrutor;
 	}
 
-	public boolean EhEstudante() {
+	public boolean ehEstudante() {
 		return ehEstudante;
 	}
 
@@ -139,21 +141,41 @@ public class Principal extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[grow][grow]", "[][grow]"));
+		GridBagLayout gbl_contentPane = new GridBagLayout();
+		gbl_contentPane.columnWidths = new int[]{203, 203, 0};
+		gbl_contentPane.rowHeights = new int[]{17, 194, 0};
+		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		contentPane.setLayout(gbl_contentPane);
 		
 		JLabel lblNewLabel = new JLabel("Seus eventos");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
-		contentPane.add(lblNewLabel, "cell 0 0");
+		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
+		gbc_lblNewLabel.anchor = GridBagConstraints.NORTHWEST;
+		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel.gridx = 0;
+		gbc_lblNewLabel.gridy = 0;
+		contentPane.add(lblNewLabel, gbc_lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Todos os eventos");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 14));
-		contentPane.add(lblNewLabel_1, "cell 1 0");
+		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
+		gbc_lblNewLabel_1.anchor = GridBagConstraints.NORTHWEST;
+		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 0);
+		gbc_lblNewLabel_1.gridx = 1;
+		gbc_lblNewLabel_1.gridy = 0;
+		contentPane.add(lblNewLabel_1, gbc_lblNewLabel_1);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		contentPane.add(scrollPane, "cell 0 1,grow");
+		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane.insets = new Insets(0, 0, 0, 5);
+		gbc_scrollPane.gridx = 0;
+		gbc_scrollPane.gridy = 1;
+		contentPane.add(scrollPane, gbc_scrollPane);
 		
 		model = new DefaultListModel<Evento>();
-		model.addAll(Controller.getUserSession().getAgenda().getEventos());
+		model.addAll(Controller.getUserSession().getAgenda().getEventos());		
 		list = new JList<Evento>(model);
 		list.addMouseListener(new MouseAdapter() {
 			@Override
@@ -173,8 +195,12 @@ public class Principal extends JFrame {
 		list.setCellRenderer(new EventRenderer());
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		contentPane.add(scrollPane_1, "cell 1 1,grow");
-		
+		GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
+		gbc_scrollPane_1.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane_1.gridx = 1;
+		gbc_scrollPane_1.gridy = 1;
+		contentPane.add(scrollPane_1, gbc_scrollPane_1);
+
 		model_1 = new DefaultListModel<Evento>();
 		model_1.addAll(Agenda.getTodosEventos());
 		list_1 = new JList<Evento>(model_1);

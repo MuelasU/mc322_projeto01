@@ -28,6 +28,7 @@ import src.controller.Controller;
 import src.model.Disciplina;
 import src.model.Instrutor;
 import src.model.Usuario;
+import src.model.agenda.Evento;
 
 public class CriarEvento extends JFrame {
 
@@ -164,8 +165,8 @@ public class CriarEvento extends JFrame {
 		contentPane.add(lblNewLabel_4, gbc_lblNewLabel_4);
 
 		JSlider slider = new JSlider();
-		slider.setMaximum(100);
-		slider.setMinimum(1);
+		slider.setMaximum(Evento.CAPACIDADE_MAXIMA);
+		slider.setMinimum(Evento.CAPACIDADE_MINIMA);
 		slider.setPaintTicks(true);
 		slider.setSnapToTicks(true);
 		slider.setPaintLabels(true);
@@ -223,8 +224,8 @@ public class CriarEvento extends JFrame {
 		for (Usuario usuario : Controller.getUsuarios()) {
 			if (usuario instanceof Instrutor) instrutoresComboBox.addItem((Instrutor) usuario);
 		}
-		instrutoresComboBox.setEnabled(principal.EhModerador());
-		if (principal.EhInstrutor()) instrutoresComboBox.setSelectedItem((Instrutor) Controller.getUserSession());
+		instrutoresComboBox.setEnabled(principal.ehModerador());
+		if (principal.ehInstrutor()) instrutoresComboBox.setSelectedItem((Instrutor) Controller.getUserSession());
 		GridBagConstraints gbc_comboBox_1 = new GridBagConstraints();
 		gbc_comboBox_1.insets = new Insets(0, 0, 5, 0);
 		gbc_comboBox_1.fill = GridBagConstraints.HORIZONTAL;

@@ -47,14 +47,16 @@ public class Instrutor extends Usuario {
         return null;
     }
     
-    /**
-     * Este método permite ao {@link Instrutor} cancelar um {@link Evento}.
-     * <p>
-     * Este método apenas altera o atributo {@code confirmado} do {@code Evento}.
-     * 
-     * @param evento
-     * @return {@code true} caso o {@code Instrutor} seja o responsável pelo {@code Evento}. {@code false} caso contrario 
-     */
+    @Override
+    public boolean confirmarEvento(Evento evento) {
+        boolean souInstrutorResponsavel = evento.getInstrutor() == this;
+        if (souInstrutorResponsavel) {
+            evento.setConfirmado(true);
+        }
+        return souInstrutorResponsavel;
+    }
+    
+    @Override
     public boolean cancelarEvento(Evento evento) {
         boolean souInstrutorResponsavel = evento.getInstrutor() == this;
         if (souInstrutorResponsavel) {

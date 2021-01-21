@@ -166,6 +166,52 @@ public class Controller {
         }
     }
 
+    public static boolean desinscreverEvento(Evento evento) {
+        ((Estudante) userSession).desinscreverEvento(evento);
+        mensagem = "Desinscricao realizada com sucesso";
+        System.out.println(mensagem);
+        return true;
+    }
+
+    public static boolean inscreverEvento(Evento evento) {
+        boolean inscreveu = ((Estudante) userSession).inscreverEvento(evento);
+        mensagem = inscreveu ? "Inscricao realizada com sucesso" : "Nao foi possivel realizar a inscricao";
+        System.out.println(mensagem);
+        return inscreveu;
+    }
+    
+    public static boolean mudaConfirmacaoEvento(Evento evento) {
+        boolean mudou = evento.isConfirmado() ? userSession.cancelarEvento(evento) : userSession.confirmarEvento(evento);
+        mensagem = mudou ? "Evento " + (evento.isConfirmado() ? "confirmado" : "cancelado") + " com sucesso" : "Voce nao tem permissao para realizar esta operacao";
+        System.out.println(mensagem);
+        return mudou;
+    }
+    
+    public static boolean aceitarMonitoria(Monitoria monitoria, String capacidadeString, String salaDeVideo, String duracaoString) {
+        try {
+            int horas = Integer.parseInt(duracaoString);
+            if (horas < 1 || horas > 4) {
+                mensagem = "Duracao muito curta ou muito longa para um evento";
+                System.out.println(mensagem);
+                return false;
+            }
+            Duration duracao = Duration.ofHours(horas);
+            int capacidade = Integer.parseInt(capacidadeString);
+            if (capacidade > Evento.CAPACIDADE_MAXIMA || capacidade < Evento.CAPACIDADE_MINIMA) {
+                mensagem = "Capacidade deve estar entre " + Evento.CAPACIDADE_MINIMA + " e " + Evento.CAPACIDADE_MAXIMA;
+                System.out.println(mensagem);
+                return false;
+            }
+            ((Instrutor) userSession).aceitarMonitoria(monitoria, duracao, capacidade, salaDeVideo);
+            mensagem = "Monitoria aceita. Agora eh sua responsabilidade ministra-la";
+            System.out.println(mensagem);
+            return true;
+        } catch (NumberFormatException e) {
+            mensagem = "Entrada numerica nao reconhecida";
+            System.out.println(mensagem);
+            return false;
+        }
+    }
     //#region Getters e Setters
     public static ArrayList<Usuario> getUsuarios() {
         return usuarios;
