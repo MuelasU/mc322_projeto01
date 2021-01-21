@@ -1,8 +1,10 @@
 package src.model;
 
+import java.time.Duration;
 import java.util.Calendar;
 
 import src.model.agenda.Agenda;
+import src.model.agenda.Evento;
 
 /**
  * Implementa o elemento fundamental deste aplicativo.
@@ -81,6 +83,22 @@ public abstract class Usuario {
         this.dataDeAtivacao = dataDeAtivacao;
     }
     //#endregion    
+
+    /**
+     * Este método permite ao {@link Usuario} agendar um {@link Evento}.
+     *  
+     * @param nome
+     * @param descricao
+     * @param disciplina
+     * @param data
+     * @param duracao
+     * @param capacidade
+     * @param salaDeVideo
+     * @param instrutor
+     * @param ehAula
+     * @return referência para o {@code Evento} instanciada. {@code null} caso a {@code Evento} seja impossível de ser realizada.
+     */
+    public abstract Evento criarEvento(String nome, String descricao, Disciplina disciplina, Calendar data, Duration duracao, int capacidade, String salaDeVideo, Instrutor instrutor, boolean ehAula);
 
     @Override
     public String toString() {

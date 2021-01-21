@@ -2,6 +2,7 @@ package src.controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -11,15 +12,18 @@ import src.model.Instrutor;
 import src.model.Moderador;
 import src.model.Perfil;
 import src.model.Usuario;
+import src.model.agenda.Agenda;
 import src.model.agenda.Evento;
 import src.model.agenda.Monitoria;
 
 public class Controller {
     private static ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
-    private static ArrayList<Evento> eventos = new ArrayList<Evento>();
+    // private static ArrayList<Evento> eventos = new ArrayList<Evento>();
     private static Usuario userSession = null;
     private static String mensagem = "Nenhuma mensagem foi disparada";
-    
+
+    private static SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
+
     /**
      * Realiza o cadastro de um {@link Usuario} no aplicativo
      * 
@@ -83,9 +87,16 @@ public class Controller {
         return true;
     }
     
+    /**
+     * 
+     * @param nome
+     * @param descricao
+     * @param dataString
+     * @param disciplina
+     * @return
+     */
     public static boolean solicitarMonitoria(String nome, String descricao, String dataString, Disciplina disciplina) {
         try {
-            SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
             Calendar data = Calendar.getInstance();
             data.setTime(fmt.parse(dataString));
             if (nome.equals("")) {
@@ -99,12 +110,57 @@ public class Controller {
                 System.out.println(mensagem);
                 return false;
             }
-            eventos.add(pedido);
             mensagem = "Pedido de monitoria realizado com sucesso. Agora eh soh esperar algum instrutor aceitar";
             System.out.println(mensagem);
+            System.out.println(Agenda.getTodosEventos().size());
             return true;
         } catch (ParseException e) {
             mensagem = "Data invalida";
+            System.out.println(mensagem);
+            return false;
+        }
+    }
+
+    /**
+     * 
+     * @param nome
+     * @param descricao
+     * @param disciplina
+     * @param dataString
+     * @param duracaoString
+     * @param capacidade
+     * @param salaDeVideo
+     * @param instrutor
+     * @param ehAula
+     * @return
+     */
+    public static boolean criarEvento(String nome, String descricao, Disciplina disciplina, String dataString, String duracaoString, int capacidade, String salaDeVideo, Instrutor instrutor, boolean ehAula) {
+        try {
+            Calendar data = Calendar.getInstance();
+            data.setTime(fmt.parse(dataString));
+            int horas = Integer.parseInt(duracaoString);
+            if (horas < 1 || horas > 4) {
+                mensagem = "Duracao muito curta ou muito longa para um evento";
+                System.out.println(mensagem);
+                return false;
+            }
+            Duration duracao = Duration.ofHours(horas);
+            Evento evento = userSession.criarEvento(nome, descricao, disciplina, data, duracao, capacidade, salaDeVideo, instrutor, ehAula);
+            if (evento == null) {
+                mensagem = "Data invalida";
+                System.out.println(mensagem);
+                return false;
+            }
+            mensagem = "Evento criado com sucesso";
+            System.out.println(mensagem);
+            System.out.println(Agenda.getTodosEventos().size());
+            return true;
+        } catch (ParseException e) {
+            mensagem = "Data invalida";
+            System.out.println(mensagem);
+            return false;
+        } catch (NumberFormatException e) {
+            mensagem = "Duracao invalida";
             System.out.println(mensagem);
             return false;
         }
@@ -117,14 +173,6 @@ public class Controller {
 
     protected static void setUsuarios(ArrayList<Usuario> usuarios) {
         Controller.usuarios = usuarios;
-    }
-
-    public static ArrayList<Evento> getEventos() {
-        return eventos;
-    }
-
-    protected static void setEventos(ArrayList<Evento> eventos) {
-        Controller.eventos = eventos;
     }
 
     public static Usuario getUserSession() {

@@ -1,5 +1,6 @@
 package src.model;
 
+import java.time.Duration;
 import java.util.Calendar;
 
 import src.model.agenda.Agenda;
@@ -87,6 +88,11 @@ public class Estudante extends Usuario {
      */
     public Discussao iniciarDiscussao(String texto, Disciplina disciplina, Material... referencia) {
         return new Discussao(texto, this, disciplina, referencia);
+    }
+
+    @Override
+    public Evento criarEvento(String nome, String descricao, Disciplina disciplina, Calendar data, Duration duracao, int capacidade, String salaDeVideo, Instrutor instrutor, boolean ehAula) {
+        return null;
     }
 
     @Override

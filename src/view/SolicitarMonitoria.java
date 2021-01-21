@@ -22,7 +22,7 @@ import javax.swing.border.EmptyBorder;
 import src.controller.Controller;
 import src.model.Disciplina;
 
-public class SolicitacaoMonitoria extends JFrame {
+public class SolicitarMonitoria extends JFrame {
 
 	private static final long serialVersionUID = 4;
 	private JPanel contentPane;
@@ -36,6 +36,7 @@ public class SolicitacaoMonitoria extends JFrame {
 	private JButton btnNewButton;
 	private JLabel lblNewLabel_4;
 	private Component verticalStrut_2;
+	private JButton btnNewButton_1;
 
 	/**
 	 * Launch the application.
@@ -44,7 +45,7 @@ public class SolicitacaoMonitoria extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					SolicitacaoMonitoria frame = new SolicitacaoMonitoria(null);
+					SolicitarMonitoria frame = new SolicitarMonitoria(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -56,7 +57,7 @@ public class SolicitacaoMonitoria extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public SolicitacaoMonitoria(Principal principal) {
+	public SolicitarMonitoria(Principal principal) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -174,9 +175,9 @@ public class SolicitacaoMonitoria extends JFrame {
 																 dataTextField.getText(),
 																 (Disciplina) comboBox.getSelectedItem());
 				if (solicitou) {
+					principal.atualizaListas();
 					principal.setVisible(true);
-					System.out.println(Controller.getEventos());
-					SolicitacaoMonitoria.this.dispose();
+					SolicitarMonitoria.this.dispose();
 				}
 			}
 			
@@ -185,6 +186,19 @@ public class SolicitacaoMonitoria extends JFrame {
 		gbc_btnNewButton.gridx = 1;
 		gbc_btnNewButton.gridy = 8;
 		contentPane.add(btnNewButton, gbc_btnNewButton);
+
+		btnNewButton_1 = new JButton("Voltar");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				principal.setVisible(true);
+				SolicitarMonitoria.this.dispose();
+			}
+		});
+		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
+		gbc_btnNewButton_1.insets = new Insets(0, 0, 0, 5);
+		gbc_btnNewButton_1.gridx = 0;
+		gbc_btnNewButton_1.gridy = 8;
+		contentPane.add(btnNewButton_1, gbc_btnNewButton_1);
 	}
 
 }

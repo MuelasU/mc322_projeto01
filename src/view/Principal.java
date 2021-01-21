@@ -1,29 +1,57 @@
 package src.view;
 
-import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
+import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ListCellRenderer;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 
+import net.miginfocom.swing.MigLayout;
 import src.controller.Controller;
 import src.model.Estudante;
 import src.model.Instrutor;
 import src.model.Moderador;
+import src.model.agenda.Agenda;
+import src.model.agenda.Evento;
 
 public class Principal extends JFrame {
 	
 	private static final long serialVersionUID = 3;
 	private JPanel contentPane;
-	
+	private boolean ehModerador;
+	private boolean ehInstrutor;
+	private boolean ehEstudante;
+	private DefaultListModel<Evento> model;
+	private DefaultListModel<Evento> model_1;
+	JList<Evento> list;
+	JList<Evento> list_1;
+
+	public boolean EhModerador() {
+		return ehModerador;
+	}
+
+	public boolean EhInstrutor() {
+		return ehInstrutor;
+	}
+
+	public boolean EhEstudante() {
+		return ehEstudante;
+	}
 
 	/**
 	 * Launch the application.
@@ -45,9 +73,9 @@ public class Principal extends JFrame {
 	 * Create the frame.
 	 */
 	public Principal(Login login) {
-		boolean ehModerador = Controller.getUserSession() instanceof Moderador;
-		boolean ehInstrutor = Controller.getUserSession() instanceof Instrutor;
-		boolean ehEstudante = Controller.getUserSession() instanceof Estudante;
+		ehModerador = Controller.getUserSession() instanceof Moderador;
+		ehInstrutor = Controller.getUserSession() instanceof Instrutor;
+		ehEstudante = Controller.getUserSession() instanceof Estudante;
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -84,7 +112,7 @@ public class Principal extends JFrame {
 		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Solicitar monitoria");
 		mntmNewMenuItem_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SolicitacaoMonitoria solicitacaoMonitoria = new SolicitacaoMonitoria(Principal.this);
+				SolicitarMonitoria solicitacaoMonitoria = new SolicitarMonitoria(Principal.this);
 				solicitacaoMonitoria.setVisible(true);
 				Principal.this.setVisible(false);
 			}
@@ -96,65 +124,105 @@ public class Principal extends JFrame {
 		});
 		mnNewMenu_1.add(mntmNewMenuItem_1);
 		
-		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Inscrever-se em evento");
-		mntmNewMenuItem_2.setEnabled(ehEstudante);
-		mntmNewMenuItem_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		mnNewMenu_1.add(mntmNewMenuItem_2);
-		
-		JMenuItem mntmNewMenuItem_3 = new JMenuItem("Desinscrever-se de evento");
-		mntmNewMenuItem_3.setEnabled(ehEstudante);
-		mntmNewMenuItem_3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		mnNewMenu_1.add(mntmNewMenuItem_3);
-		
 		JMenuItem mntmNewMenuItem_4 = new JMenuItem("Criar evento");
 		mntmNewMenuItem_4.setEnabled(ehInstrutor || ehModerador);
 		mntmNewMenuItem_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				CriarEvento criarEvento = new CriarEvento(Principal.this);
+				criarEvento.setVisible(true);
+				Principal.this.setVisible(false);
 			}
 		});
 		mnNewMenu_1.add(mntmNewMenuItem_4);
-		
-		JMenuItem mntmNewMenuItem_5 = new JMenuItem("Aceitar monitoria");
-		mntmNewMenuItem_5.setEnabled(ehInstrutor);
-		mntmNewMenuItem_5.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		mnNewMenu_1.add(mntmNewMenuItem_5);
-		
-		JMenuItem mntmNewMenuItem_6 = new JMenuItem("Cancelar evento");
-		mntmNewMenuItem_6.setEnabled(ehInstrutor || ehModerador);
-		mntmNewMenuItem_6.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		mnNewMenu_1.add(mntmNewMenuItem_6);
 		//#endregion
 
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(new BorderLayout(0, 0));
+		contentPane.setLayout(new MigLayout("", "[grow][grow]", "[][grow]"));
 		
-		JPanel panel = new JPanel();
-		contentPane.add(panel, BorderLayout.WEST);
-		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+		JLabel lblNewLabel = new JLabel("Seus eventos");
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		contentPane.add(lblNewLabel, "cell 0 0");
 		
-		JButton btnNewButton = new JButton("New button");
-		panel.add(btnNewButton);
+		JLabel lblNewLabel_1 = new JLabel("Todos os eventos");
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 14));
+		contentPane.add(lblNewLabel_1, "cell 1 0");
 		
-		JPanel panel_1 = new JPanel();
-		contentPane.add(panel_1, BorderLayout.EAST);
-		panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.X_AXIS));
+		JScrollPane scrollPane = new JScrollPane();
+		contentPane.add(scrollPane, "cell 0 1,grow");
 		
-		JButton btnNewButton_1 = new JButton("New button");
-		panel_1.add(btnNewButton_1);
+		model = new DefaultListModel<Evento>();
+		model.addAll(Controller.getUserSession().getAgenda().getEventos());
+		list = new JList<Evento>(model);
+		list.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JList<Evento> list = (JList<Evento>) e.getSource();
+		        if (e.getClickCount() == 2) {
+		            // Double-click detected
+		            int index = list.locationToIndex(e.getPoint());
+		            InfoEvento evento = new InfoEvento(Principal.this, list.getModel().getElementAt(index));
+		            evento.setVisible(true);
+		            Principal.this.setVisible(false);
+		        }
+			}
+		});
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		scrollPane.setViewportView(list);
+		list.setCellRenderer(new EventRenderer());
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		contentPane.add(scrollPane_1, "cell 1 1,grow");
+		
+		model_1 = new DefaultListModel<Evento>();
+		model_1.addAll(Agenda.getTodosEventos());
+		list_1 = new JList<Evento>(model_1);
+		list_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JList<Evento> list = (JList<Evento>)e.getSource();
+		        if (e.getClickCount() == 2) {
+		            // Double-click detected
+		            int index = list.locationToIndex(e.getPoint());
+		            InfoEvento evento = new InfoEvento(Principal.this, list_1.getModel().getElementAt(index));
+		            evento.setVisible(true);
+		            Principal.this.setVisible(false);
+		        }
+			}
+		});
+		list_1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		scrollPane_1.setViewportView(list_1);
+		list_1.setCellRenderer(new EventRenderer());
 	}
 
+	protected void atualizaListas() {
+		model.clear();
+		model_1.clear();
+		model.addAll(Controller.getUserSession().getAgenda().getEventos());
+		model_1.addAll(Agenda.getTodosEventos());
+		list.setModel(model);
+		list_1.setModel(model_1);
+	}
+
+	private static class EventRenderer extends JLabel implements ListCellRenderer<Evento> {
+
+		private static final long serialVersionUID = 7;
+		public EventRenderer() {
+			setOpaque(true);
+		}
+	
+		@Override
+		public Component getListCellRendererComponent(JList<? extends Evento> list, Evento evento, int index, boolean isSelected, boolean cellHasFocus) {
+			setText(evento.getNome());
+			if (isSelected) {
+				setBackground(list.getSelectionBackground());
+				setForeground(list.getSelectionForeground());
+			} else {
+				setBackground(list.getBackground());
+				setForeground(list.getForeground());
+			}
+			return this;
+		}
+	}
 }

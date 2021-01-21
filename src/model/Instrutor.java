@@ -36,21 +36,9 @@ public class Instrutor extends Usuario {
         return avaliacao;
     }
     //#endregion
-    
-    /**
-     * Este método permite ao {@link Instrutor} agendar um {@link Evento} do tipo {@link Aula} ou {@link Monitoria}. Fazendo isto, ele se responsabiliza em gerenciar o {@code Evento} e ministrá-lo.
-     * 
-     * @param nome
-     * @param descricao
-     * @param disciplina
-     * @param data
-     * @param duracao
-     * @param capacidade
-     * @param salaDeVideo
-     * @param ehAula
-     * @return referência para a {@code Aula} ou {@code Monitoria} instanciada. {@code null} caso <b>data</b> já tenha passado
-     */
-    public Evento criarEvento(String nome, String descricao, Disciplina disciplina, Calendar data, Duration duracao, int capacidade, String salaDeVideo, boolean ehAula) {
+
+    @Override
+    public Evento criarEvento(String nome, String descricao, Disciplina disciplina, Calendar data, Duration duracao, int capacidade, String salaDeVideo, Instrutor instrutor, boolean ehAula) {
         boolean dataEstaNoFuturo = data.after(Calendar.getInstance());
         if (dataEstaNoFuturo) {
             return ehAula ? new Aula(nome, descricao, disciplina, data, duracao, capacidade, salaDeVideo, this)

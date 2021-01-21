@@ -54,6 +54,7 @@ public class Cadastro extends JFrame {
 	private JRadioButton moderadorRadioButton;
 	private JLabel lblNewLabel_7;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
+	private JButton btnNewButton_1;
 
 	/**
 	 * Launch the application.
@@ -287,6 +288,19 @@ public class Cadastro extends JFrame {
 		gbc_btnNewButton.gridx = 1;
 		gbc_btnNewButton.gridy = 14;
 		contentPane.add(btnNewButton, gbc_btnNewButton);
+
+		btnNewButton_1 = new JButton("Voltar");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				loginFrame.setVisible(true);
+				Cadastro.this.dispose();
+			}
+		});
+		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
+		gbc_btnNewButton_1.insets = new Insets(0, 0, 5, 5);
+		gbc_btnNewButton_1.gridx = 0;
+		gbc_btnNewButton_1.gridy = 14;
+		contentPane.add(btnNewButton_1, gbc_btnNewButton_1);
 	}
 
 }
