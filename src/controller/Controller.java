@@ -99,10 +99,9 @@ public class Controller {
      */
     public static boolean solicitarMonitoria(String nome, String descricao, String dataString, Disciplina disciplina) {
         try {
-            if (nome.isEmpty()) nome = "-";
             Calendar data = Calendar.getInstance();
             data.setTime(fmt.parse(dataString));
-            if (nome.equals("")) {
+            if (nome.isEmpty()) {
                 mensagem = "Faltam informacoes";
                 System.out.println(mensagem);
                 return false;
@@ -140,7 +139,11 @@ public class Controller {
      */
     public static boolean criarEvento(String nome, String descricao, Disciplina disciplina, String dataString, String duracaoString, int capacidade, String salaDeVideo, Instrutor instrutor, boolean ehAula) {
         try {
-            if (nome.isEmpty()) nome = "-";
+            if (nome.isEmpty()) {
+                mensagem = "Faltam informacoes";
+                System.out.println(mensagem);
+                return false;
+            }
             Calendar data = Calendar.getInstance();
             data.setTime(fmt.parse(dataString));
             int horas = Integer.parseInt(duracaoString);
